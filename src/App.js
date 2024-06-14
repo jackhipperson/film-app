@@ -1,7 +1,12 @@
+import Header from "./components/Header";
+import LogIn from "./components/LogIn";
+import Search from "./components/Search";
+
 function App() {
   return (
     <>
-      <p className="text-red-700 ">Film App</p>
+    <Header />
+    <Search />
     </>
   );
 }
