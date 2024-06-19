@@ -6,20 +6,20 @@ const Search = () => {
   // enteredSearch is a state that holds the users search term. searchResults will hold the results from the API call
   const [enteredSearch, setEnteredSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  // apiError will populate on error caught from the API call or if API status is not 200
   const [apiError, setApiError] = useState(null);
+  // loading state for UI on API Call wait
   const [isLoading, setIsLoading] = useState(false);
-  let errorText;
 
-  console.log(searchResults);
-  console.log(apiError);
+  // error text will be set based on the message passed into apiError state
+  let errorText;
 
   // function called with every letter entered in the search bar to update enteredSearch state
   const handleSearch = (event) => {
     setEnteredSearch(event.target.value);
   };
 
-  // useEffect that calls the API and saves the results in the searchResults State.
-
+  // function to call the API and save the results in the searchResults State. This function is set as a dependancy in useEffect and so wrapped in useCallback to avoid unncessary re-renders
   const fetchSearchResults = useCallback(async () => {
     setIsLoading(true);
     setApiError(null);
@@ -27,7 +27,7 @@ const Search = () => {
       try {
         let apiResult = await fetchFilms(enteredSearch);
         if (apiResult.status !== 200) {
-          setApiError(apiResult.message);
+          setApiError(apiResult.message || "There was an error fetching the data");
           console.log(apiResult);
         } else {
           setSearchResults(apiResult.data.results);
@@ -41,12 +41,14 @@ const Search = () => {
       setSearchResults([]);
     }
     setIsLoading(false);
-  },[enteredSearch]);
+  }, [enteredSearch]);
 
+  // useEffect to run api call on each render when entered search is changed
   useEffect(() => {
-    fetchSearchResults(enteredSearch);
+    fetchSearchResults();
   }, [enteredSearch, fetchSearchResults]);
 
+  // Set error text
   if (apiError) {
     errorText = (
       <p className="text-red-800 p-2">
@@ -54,33 +56,23 @@ const Search = () => {
       </p>
     );
   } else {
-    errorText = "";
+    errorText = null;
   }
-
-  console.log(searchResults);
 
   return (
     <div className="max-w-6xl mx-auto my-10 text-center">
-      <form>
-        <div className="">
-          <input
-            onChange={handleSearch}
-            value={enteredSearch}
-            className="w-[90%] p-2 border rounded-lg border-yellow-600 text-xl"
-            type="text"
-            placeholder="Enter a film name..."
-          />
-        </div>
-        {/* <button>
-          <div className="m-4 px-4 py-2 bg-yellow-400 border border-yellow-600 rounded-lg">
-            <p className="text-xl">Search</p>
-          </div>
-        </button> */}
-      </form>
-      {isLoading && <p>Loading...</p>}
-      {apiError ? (
-        { errorText }
-      ) : searchResults ? (
+      <div className="">
+        <input
+          onChange={handleSearch}
+          value={enteredSearch}
+          className="w-[90%] p-2 border rounded-lg border-yellow-600 text-xl"
+          type="text"
+          placeholder="Enter a film name..."
+        />
+      </div>
+      <div className="h-4 p-4">{isLoading && <p>Loading...</p>}</div>
+      {apiError && { errorText }}
+      {searchResults ? (
         <Results searchResults={searchResults} />
       ) : (
         <p>Enter 3 or more letters to start a search.</p>
