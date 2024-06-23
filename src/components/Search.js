@@ -27,7 +27,9 @@ const Search = () => {
       try {
         let apiResult = await fetchFilms(enteredSearch);
         if (apiResult.status !== 200) {
-          setApiError(apiResult.message || "There was an error fetching the data");
+          setApiError(
+            apiResult.message || "There was an error fetching the data"
+          );
           console.log(apiResult);
         } else {
           setSearchResults(apiResult.data.results);
@@ -52,7 +54,9 @@ const Search = () => {
   if (apiError) {
     errorText = (
       <p className="text-red-800 p-2">
-        Error: {apiError || "There has been an error"} - Please contact support.
+        Error:
+        {apiError.message ||
+          "There has been an error - Please contact support."}
       </p>
     );
   } else {
