@@ -1,3 +1,9 @@
+import add from './icons/add.svg'
+import fav0 from './icons/fav0.svg'
+import fav1 from './icons/fav1.svg'
+import rem from './icons/rem.svg'
+
+
 const FilmItem = ({ film }) => {
 
     const maxLength = 150
@@ -17,8 +23,8 @@ const FilmItem = ({ film }) => {
           <p className="font-bold p-2">{film.title} - {film.release_date.slice(0,4)}</p>
           <p className="text-sm p-2">{film.overview.slice(0,maxLength)} {longDesc && "..."}</p>
           <div className="flex justify-end p-2">
-            <p>FAV</p>
-            <p>WIS</p>
+            <img src={fav0} alt="Add to Favourites" title="Add to Favourites" width='30px' />
+            <img src={add} alt="Add to Wishlist" title="Add to Wishlist" width='30px' />
           </div>
         </div>
       </div>

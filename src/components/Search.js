@@ -31,7 +31,6 @@ const Search = () => {
             apiResult.message || "There was an error fetching the data"
           );
         } else {
-          console.log(apiResult);
           setSearchResults(apiResult.data.results);
           setApiError(null);
         }
