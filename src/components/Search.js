@@ -30,8 +30,8 @@ const Search = () => {
           setApiError(
             apiResult.message || "There was an error fetching the data"
           );
-          console.log(apiResult);
         } else {
+          console.log(apiResult);
           setSearchResults(apiResult.data.results);
           setApiError(null);
         }
@@ -54,7 +54,7 @@ const Search = () => {
   if (apiError) {
     errorText = (
       <p className="text-red-800 p-2">
-        Error:
+        Error: 
         {apiError.message ||
           "There has been an error - Please contact support."}
       </p>
@@ -75,7 +75,7 @@ const Search = () => {
         />
       </div>
       <div className="h-4 p-4">{isLoading && <p>Loading...</p>}</div>
-      {apiError && { errorText }}
+      {apiError && errorText}
       {searchResults ? (
         <Results searchResults={searchResults} />
       ) : (

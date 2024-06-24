@@ -5,7 +5,7 @@ const Results = ({ searchResults }) => {
     <ul>
       {searchResults.length > 0 &&
         searchResults.map((item) => {
-          return <FilmItem film={item} />;
+          return <FilmItem key={item.id} film={item} />;
         })}
     </ul>
   );
