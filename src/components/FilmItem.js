@@ -1,13 +1,21 @@
+import { useContext } from 'react';
 import add from './icons/add.svg'
 import fav0 from './icons/fav0.svg'
 import fav1 from './icons/fav1.svg'
 import rem from './icons/rem.svg'
+import FilmContext from '../contexts/FilmContext';
 
 
 const FilmItem = ({ film, toggleModal }) => {
 
+    const filmCtx = useContext(FilmContext)
     const maxLength = 150
     const longDesc = film.overview.length > maxLength
+
+    const openModal = () => {
+      filmCtx.setSelectedFilmHandler(film)
+      toggleModal()
+    }
 
   return (
     <li
@@ -15,7 +23,7 @@ const FilmItem = ({ film, toggleModal }) => {
       className="bg-white mx-auto my-4 w-[90%] border-4 border-yellow-600 rounded-md"
     >
       <div className="flex-row flex">
-        <div className="flex-none" onClick={toggleModal}>
+        <div className="flex-none" onClick={openModal}>
           {film.poster_path && <img src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`} alt={film.title} height="100px" width="100px" className="overflow-hidden" />}
         </div>
 
