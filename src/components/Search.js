@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchFilms } from "../util/fetch-http";
 import Results from "./Results";
 
-const Search = () => {
+const Search = ({toggleModal}) => {
   // enteredSearch is a state that holds the users search term. searchResults will hold the results from the API call
   const [enteredSearch, setEnteredSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -76,7 +76,7 @@ const Search = () => {
       <div className="h-4 p-4">{isLoading && <p>Loading...</p>}</div>
       {apiError && errorText}
       {searchResults ? (
-        <Results searchResults={searchResults} />
+        <Results searchResults={searchResults} toggleModal={toggleModal} />
       ) : (
         <p>Enter 3 or more letters to start a search.</p>
       )}

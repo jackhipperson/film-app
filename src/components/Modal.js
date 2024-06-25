@@ -1,14 +1,14 @@
-import ReactDOM from 'react-dom'
+import ReactDOM from "react-dom";
 
-const Backdrop = () => {
+const Backdrop = ({toggleModal}) => {
   return (
-    <div className="h-[100vh] w-[100vh] z-0 absolute top-1/2 left-1/2  opacity-75 bg-black"></div>
+    <div onClick={toggleModal} className="h-[100vh] w-[100%] z-0 absolute opacity-75 bg-black"></div>
   );
 };
 
 const ModalOverlay = () => {
   return (
-    <div className="w-[80%] bg-white rounded-lg ">
+    <div className="w-[80%] p-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg animate-fadeIn ">
       <p>Hello</p>
     </div>
   );
@@ -16,17 +16,11 @@ const ModalOverlay = () => {
 
 const portalElement = document.getElementById("overlays");
 
-const Modal = (film) => {
+const Modal = ({toggleModal}) => {
   return (
     <>
-      {ReactDOM.createPortal(
-        <Backdrop />,
-        portalElement
-      )}
-      {ReactDOM.createPortal(
-        <ModalOverlay></ModalOverlay>,
-        portalElement
-      )}
+      {ReactDOM.createPortal(<Backdrop toggleModal={toggleModal} />, portalElement)}
+      {ReactDOM.createPortal(<ModalOverlay></ModalOverlay>, portalElement)}
     </>
   );
 };
