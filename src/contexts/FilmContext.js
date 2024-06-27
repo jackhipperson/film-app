@@ -1,8 +1,12 @@
-import { createContext } from "react"
+import { createContext } from "react";
 
 const FilmContext = createContext({
-    selectedFilm:'',
-    setSelectedFilmItem: (id) => {}
-})
+  selectedFilm: "",
+  watchList: [],
+  addWatchList: (id) => {},
+  favList: [],
+  addFavList: (id) => {},
+  setSelectedFilmItem: (film) => {},
+});
 
-export default FilmContext
+export default FilmContext;

@@ -68,14 +68,14 @@ const Search = ({toggleModal}) => {
         <input
           onChange={handleSearch}
           value={enteredSearch}
-          className="w-[90%] p-2 border rounded-lg border-yellow-600 text-xl"
+          className="w-[90%] p-2 border rounded-lg border-yellow-600 text-3xl lg:text-xl shadow-lg"
           type="text"
           placeholder="Enter a film name..."
         />
       </div>
-      <div className="h-4 p-4">{isLoading && <p>Loading...</p>}</div>
+      <div className="h-10 p-2">{isLoading && <p>Loading...</p>}</div>
       {apiError && errorText}
-      {searchResults ? (
+      {searchResults.length > 0 ? (
         <Results searchResults={searchResults} toggleModal={toggleModal} />
       ) : (
         <p>Enter 3 or more letters to start a search.</p>

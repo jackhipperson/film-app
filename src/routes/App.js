@@ -1,9 +1,6 @@
 import { useState } from "react";
-import Header from "./components/Header";
-import LogIn from "./components/LogIn";
-import Modal from "./components/Modal";
-import Search from "./components/Search";
-import FilmProvider from "./contexts/FilmProvider";
+import Modal from "../components/Modal";
+import Search from "../components/Search";
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -12,12 +9,17 @@ function App() {
     setModalOpen((prevState) => !prevState);
   };
 
+  if (modalOpen) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
   return (
-    <FilmProvider>
+    <>
       {modalOpen && <Modal toggleModal={toggleModal} />}
-      <Header />
       <Search toggleModal={toggleModal} />
-    </FilmProvider>
+    </>
   );
 }
 
