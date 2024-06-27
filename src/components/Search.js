@@ -64,7 +64,7 @@ const Search = ({toggleModal}) => {
 
   return (
     <div className="max-w-6xl mx-auto my-10 text-center">
-      <div className="">
+      <div>
         <input
           onChange={handleSearch}
           value={enteredSearch}

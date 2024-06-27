@@ -61,16 +61,16 @@ const FilmItem = ({ film, toggleModal }) => {
           <div className="flex justify-end pr-2 py-1 lg:py-2">
             <img
               src={favButton}
-              alt="Add to Favourites"
-              title="Add to Favourites"
+              alt="Favourites"
+              title="Favourites"
               width="30px"
               className="mx-2"
               onClick={addFavList}
             />
             <img
               src={watchButton}
-              alt="Add to Watchlist"
-              title="Add to Watchlist"
+              alt="Watchlist"
+              title="Watchlist"
               width="30px"
               className="mx-2"
               onClick={addWatchList}
