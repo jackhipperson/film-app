@@ -7,16 +7,17 @@ import fav0 from "./icons/fav0.svg";
 import fav1 from "./icons/fav1.svg";
 import rem from "./icons/rem.svg";
 
-const Backdrop = ({ toggleModal }) => {
+const Backdrop = () => {
+  const filmCtx = useContext(FilmContext)
   return (
     <div
-      onClick={toggleModal}
-      className="h-[100%] w-[100%] z-0 fixed opacity-75 bg-black"
+      onClick={filmCtx.toggleModal}
+      className="h-[100%] w-[100%] z-50 fixed opacity-75 bg-black"
     ></div>
   );
 };
 
-const ModalOverlay = ({ toggleModal }) => {
+const ModalOverlay = () => {
   const filmCtx = useContext(FilmContext);
   const favButton = filmCtx.favList.includes(filmCtx.selectedFilm.id) ? fav1 : fav0;
   const watchButton = filmCtx.watchList.includes(filmCtx.selectedFilm.id) ? rem : add;
@@ -30,8 +31,8 @@ const ModalOverlay = ({ toggleModal }) => {
   };
 
   return (
-    <div className="w-[80%] max-h-[80vh] overflow-auto p-1 lg:p-2 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg animate-fadeIn m-auto text-center border-4 border-yellow-700 ">
-      <div onClick={toggleModal}>
+    <div className="w-[80%] max-h-[80vh] z-50 overflow-auto p-1 lg:p-2 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg animate-fadeIn m-auto text-center border-4 border-yellow-700 ">
+      <div onClick={filmCtx.toggleModal}>
         <img
           src={close}
           alt="Close"
@@ -89,17 +90,16 @@ const ModalOverlay = ({ toggleModal }) => {
 
 const portalElement = document.getElementById("overlays");
 
-const Modal = ({ toggleModal }) => {
+const Modal = () => {
   const { selectedFilm } = useContext(FilmContext);
-
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop toggleModal={toggleModal} />,
+        <Backdrop />,
         portalElement
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay selectedFilm={selectedFilm} toggleModal={toggleModal} />,
+        <ModalOverlay selectedFilm={selectedFilm}/>,
         portalElement
       )}
     </>

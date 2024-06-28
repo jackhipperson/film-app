@@ -6,14 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './routes/RootLayout';
 import LogIn from './components/LogIn';
-import WatchList from './routes/WatchList';
+import Results from './components/Results';
 
 const router = createBrowserRouter([
     { path: '/', element: <RootLayout />, children: [
         { path: '/', element: <App />},
         { path: '/login', element: <LogIn />},
-        { path: '/watchlist', element: <WatchList />},
-        { path: '/favourites', element: <App />},
+        { path: '/watchlist', element: <Results title="WatchList" />},
+        { path: '/favourites', element: <Results title="Favourites" />},
         { path: '/recommended', element: <App />}
     ]}
 ])

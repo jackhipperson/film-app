@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchFilms } from "../util/fetch-http";
 import Results from "./Results";
 
-const Search = ({toggleModal}) => {
+const Search = () => {
   // enteredSearch is a state that holds the users search term. searchResults will hold the results from the API call
   const [enteredSearch, setEnteredSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -52,8 +52,8 @@ const Search = ({toggleModal}) => {
   // Set error text
   if (apiError) {
     errorText = (
-      <p className="text-red-800 p-2">
-        Error: 
+      <p className="text-red-800">
+        Error:
         {apiError.message ||
           "There has been an error - Please contact support."}
       </p>
@@ -73,13 +73,18 @@ const Search = ({toggleModal}) => {
           placeholder="Enter a film name..."
         />
       </div>
-      <div className="h-10 p-2">{isLoading && <p>Loading...</p>}</div>
-      {apiError && errorText}
-      {searchResults.length > 0 ? (
-        <Results searchResults={searchResults} toggleModal={toggleModal} />
-      ) : (
-        <p>Enter 3 or more letters to start a search.</p>
-      )}
+      <div className="h-4 p-2">
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : apiError ? (
+          errorText
+        ) : enteredSearch.length < 3 ? (
+          <p>Enter 3 or more letters to start a search.</p>
+        ) : (
+          searchResults.length === 0 && !isLoading && enteredSearch.length) >= 3 && <p>No results!</p>
+        }
+        {searchResults.length > 0 && <Results searchResults={searchResults} />}
+      </div>
     </div>
   );
 };

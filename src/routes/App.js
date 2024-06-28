@@ -1,24 +1,15 @@
-import { useState } from "react";
+import { useContext } from "react";
 import Modal from "../components/Modal";
 import Search from "../components/Search";
+import FilmContext from "../contexts/FilmContext";
 
 function App() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const toggleModal = () => {
-    setModalOpen((prevState) => !prevState);
-  };
-
-  if (modalOpen) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
+const filmCtx = useContext(FilmContext)
 
   return (
     <>
-      {modalOpen && <Modal toggleModal={toggleModal} />}
-      <Search toggleModal={toggleModal} />
+      {filmCtx.modalOpen && <Modal />}
+      <Search />
     </>
   );
 }

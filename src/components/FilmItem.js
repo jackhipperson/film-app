@@ -5,7 +5,7 @@ import fav1 from "./icons/fav1.svg";
 import rem from "./icons/rem.svg";
 import FilmContext from "../contexts/FilmContext";
 
-const FilmItem = ({ film, toggleModal }) => {
+const FilmItem = ({ film }) => {
   const filmCtx = useContext(FilmContext);
   const smallScreen = window.innerWidth <= "640";
   const maxLength = smallScreen ? 120 : 150;
@@ -17,7 +17,7 @@ const FilmItem = ({ film, toggleModal }) => {
 
   const openModal = () => {
     filmCtx.setSelectedFilmHandler(film);
-    toggleModal();
+    filmCtx.toggleModal();
   };
 
   const addWatchList = (e) => {
