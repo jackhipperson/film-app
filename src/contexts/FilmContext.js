@@ -13,7 +13,9 @@ const FilmContext = createContext({
   modalOpen: "",
   setModalOpen: () => {},
   isLoading: "",
-  apiError: ""
+  apiError: "",
+  setLoadingHandler: (value) => {},
+  setApiErrorHandler: (value) => {},
 });
 
 export default FilmContext;

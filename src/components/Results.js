@@ -2,39 +2,63 @@ import { useContext, useEffect, useState } from "react";
 import FilmItem from "./FilmItem";
 import FilmContext from "../contexts/FilmContext";
 import { useLocation } from "react-router-dom";
+import Modal from "../components/Modal";
 
-const Results = ({ searchResults, title }) => {
-  const { isLoading, apiError, watchFilms, favFilms } = useContext(FilmContext);
-  const location = useLocation().pathname
-  const [results, setResults] = useState("")
+const Results = ({ searchResults, enteredSearch, title }) => {
+  const { isLoading, apiError, watchFilms, favFilms, modalOpen } =
+    useContext(FilmContext);
+  const location = useLocation().pathname;
+  const [results, setResults] = useState("");
+
+  let searchInstruction = "";
 
   useEffect(() => {
     if (title === "WatchList") {
-      setResults(watchFilms)
+      setResults(watchFilms);
     } else if (title === "Favourites") {
-      setResults(favFilms)
+      setResults(favFilms);
     } else {
-      setResults(searchResults)
+      setResults(searchResults);
+      searchInstruction = "Type 3 letters to start search";
     }
-  },[location, title, favFilms, watchFilms, searchResults])
+  }, [location, title, favFilms, watchFilms, searchResults]);
+
+  console.log(title);
+  console.log(enteredSearch.length);
+  if (title === "Search") {
+    if (enteredSearch.length >= 3) {
+      searchInstruction = "No films found :(";
+    } else {
+      searchInstruction = "Type 3 letters to start search";
+    }
+  }
 
   return (
-    <div className="max-w-6xl mx-auto text-center">
-      <h2 className="text-center text-2xl p-2">{title}</h2>
-      <div className="h-4">
-      {isLoading ? <p>Loading...</p> : results.length === 0 && <p>No films found!</p>}
+    <>
+      {modalOpen && <Modal />}
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="text-center text-2xl p-2">{title}</h2>
+        <div className=" min-h-6 h-6">
+          {apiError ? (
+            <p className="text-red-600 ">Error: {apiError}</p>
+          ) : isLoading ? (
+            <p>Loading...</p>
+          ) : results.length === 0 ? (
+            <p>{searchInstruction}</p>
+          ) : (
+            <p></p>
+          )}
+        </div>
+        <div>
+          <ul>
+            {results &&
+              results.map((item) => {
+                return <FilmItem key={item.id} film={item} />;
+              })}
+          </ul>
+        </div>
       </div>
-      {apiError ? (
-        <p className="text-red-600 ">Error: {apiError}</p>
-      ) : (
-        <ul>
-          {results &&
-            results.map((item) => {
-              return <FilmItem key={item.id} film={item} />;
-            })}
-        </ul>
-      )}
-    </div>
+    </>
   );
 };
 

@@ -1,27 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './routes/App';
-import reportWebVitals from './reportWebVitals';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import RootLayout from './routes/RootLayout';
-import LogIn from './components/LogIn';
-import Results from './components/Results';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./routes/App";
+import reportWebVitals from "./reportWebVitals";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import RootLayout from "./routes/RootLayout";
+import LogIn from "./components/LogIn";
+import Results from "./components/Results";
+import Search from "./routes/Search";
 
 const router = createBrowserRouter([
-    { path: '/', element: <RootLayout />, children: [
-        { path: '/', element: <App />},
-        { path: '/login', element: <LogIn />},
-        { path: '/watchlist', element: <Results title="WatchList" />},
-        { path: '/favourites', element: <Results title="Favourites" />},
-        { path: '/recommended', element: <App />}
-    ]}
-])
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { path: "/", element: <App /> },
+      { path: "/search", element: <Search title="Search" /> },
+      { path: "/login", element: <LogIn /> },
+      { path: "/watchlist", element: <Results title="WatchList" /> },
+      { path: "/favourites", element: <Results title="Favourites" /> },
+      { path: "/recommended", element: <App /> },
+    ],
+  },
+]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    <RouterProvider router={router} />
-);
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<RouterProvider router={router} />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

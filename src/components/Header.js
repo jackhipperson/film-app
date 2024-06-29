@@ -25,7 +25,7 @@ const Header = () => {
         </div>
         <div className="flex ml-auto items-center text-right text-sm">
           <Link
-            to="/"
+            to="/search"
             className="p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"
           >
             {smallScreen ? (

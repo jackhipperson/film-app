@@ -15,16 +15,25 @@ const FilmProvider = ({ children }) => {
     return localItems ? JSON.parse(localItems) : [];
   });
   // States for Results Component
-  const [isLoading, setIsLoading] = useState(false)
-  const [apiError, setApiError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState(null);
   // set film details for results
-  const [watchFilms, setWatchFilms] = useState([])
-  const [favFilms, setFavFilms] = useState([])
+  const [watchFilms, setWatchFilms] = useState([]);
+  const [favFilms, setFavFilms] = useState([]);
 
   // On film item click, add the film details to the selected film state
   function setSelectedFilmHandler(film) {
     setSelectedFilm(film);
   }
+
+  // search component loading and error handling
+  const setLoadingHandler = useCallback((value) => {
+    setIsLoading(value);
+  },[]);
+
+  const setApiErrorHandler = useCallback((value) => {
+    setApiError(value);
+  },[]);
 
   // API Call to populate watch list and fav list
   const fetchLists = useCallback(async () => {
@@ -35,7 +44,7 @@ const FilmProvider = ({ children }) => {
       setWatchFilms(movies);
     } catch (error) {
       setApiError(error);
-    } 
+    }
     try {
       const movies = await getMoviesData(favList);
       setFavFilms(movies);
@@ -44,18 +53,18 @@ const FilmProvider = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [watchList,favList]);
+  }, [watchList, favList]);
 
-    // use effects as listeners for changes to fav list or watch list, to update local storage and run list update
-    useEffect(() => {
-      localStorage.setItem('userWatchList', JSON.stringify(watchList))
-      fetchLists()
-    },[watchList, fetchLists])
-  
-    useEffect(() => {
-      localStorage.setItem('userFavList', JSON.stringify(favList))
-      fetchLists()
-    },[favList, fetchLists])
+  // use effects as listeners for changes to fav list or watch list, to update local storage and run list update
+  useEffect(() => {
+    localStorage.setItem("userWatchList", JSON.stringify(watchList));
+    fetchLists();
+  }, [watchList, fetchLists]);
+
+  useEffect(() => {
+    localStorage.setItem("userFavList", JSON.stringify(favList));
+    fetchLists();
+  }, [favList, fetchLists]);
 
   function addWatchList(id) {
     if (!watchList.includes(id)) {
@@ -99,7 +108,9 @@ const FilmProvider = ({ children }) => {
     modalOpen,
     toggleModal,
     isLoading,
-    apiError
+    apiError,
+    setLoadingHandler,
+    setApiErrorHandler,
   };
   return (
     <FilmContext.Provider value={filmContext}>{children}</FilmContext.Provider>
