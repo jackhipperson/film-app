@@ -52,16 +52,11 @@ const Search = () => {
           value={enteredSearch}
           className="w-[90%] p-2 border rounded-lg border-yellow-600 text-3xl lg:text-xl shadow-lg"
           type="text"
-          placeholder="Enter a film name..."
+          placeholder="Enter a film search..."
         />
       </div>
       <div>
-        {searchResults.length > 0 && (
-          <Results
-            searchResults={searchResults}
-            enteredSearch={enteredSearch}
-          />
-        )}
+        <Results searchResults={searchResults} enteredSearch={enteredSearch} />
       </div>
     </div>
   );

@@ -9,8 +9,8 @@ const Results = ({ searchResults, enteredSearch, title }) => {
     useContext(FilmContext);
   const location = useLocation().pathname;
   const [results, setResults] = useState("");
-
-  let searchInstruction = "";
+  const route = useLocation().pathname;
+  let searchHelp;
 
   useEffect(() => {
     if (title === "WatchList") {
@@ -19,18 +19,13 @@ const Results = ({ searchResults, enteredSearch, title }) => {
       setResults(favFilms);
     } else {
       setResults(searchResults);
-      searchInstruction = "Type 3 letters to start search";
     }
   }, [location, title, favFilms, watchFilms, searchResults]);
 
-  console.log(title);
-  console.log(enteredSearch.length);
-  if (title === "Search") {
-    if (enteredSearch.length >= 3) {
-      searchInstruction = "No films found :(";
-    } else {
-      searchInstruction = "Type 3 letters to start search";
-    }
+  if (route === "/search" && enteredSearch.length < 3) {
+    searchHelp = "Type 3 letters to start search";
+  } else {
+    searchHelp = "";
   }
 
   return (
@@ -43,10 +38,10 @@ const Results = ({ searchResults, enteredSearch, title }) => {
             <p className="text-red-600 ">Error: {apiError}</p>
           ) : isLoading ? (
             <p>Loading...</p>
-          ) : results.length === 0 ? (
-            <p>{searchInstruction}</p>
+          ) : enteredSearch.length >= 3 && results.length === 0 ? (
+            <p>No results!</p>
           ) : (
-            <p></p>
+            <p>{searchHelp}</p>
           )}
         </div>
         <div>
