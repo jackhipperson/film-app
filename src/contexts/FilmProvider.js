@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import FilmContext from "./FilmContext";
-import { getMoviesData } from "../util/fetch-http";
+import { getMoviesData, getRecommendData } from "../util/fetch-http";
 
 const FilmProvider = ({ children }) => {
   // Selected film is the focus of the modal pop up
@@ -20,6 +20,7 @@ const FilmProvider = ({ children }) => {
   // set film details for results
   const [watchFilms, setWatchFilms] = useState([]);
   const [favFilms, setFavFilms] = useState([]);
+  const [recommendedFilms, setRecommendedFilms] = useState([])
 
   // On film item click, add the film details to the selected film state
   function setSelectedFilmHandler(film) {
@@ -47,13 +48,17 @@ const FilmProvider = ({ children }) => {
     }
     try {
       const movies = await getMoviesData(favList);
+      const recommended = await getRecommendData(favList)
       setFavFilms(movies);
+      setRecommendedFilms(recommended)
     } catch (error) {
       setApiError(error);
     } finally {
       setIsLoading(false);
     }
   }, [watchList, favList]);
+
+  console.log(recommendedFilms);
 
   // use effects as listeners for changes to fav list or watch list, to update local storage and run list update
   useEffect(() => {
@@ -105,6 +110,7 @@ const FilmProvider = ({ children }) => {
     favList,
     addFavList,
     favFilms,
+    recommendedFilms,
     modalOpen,
     toggleModal,
     isLoading,

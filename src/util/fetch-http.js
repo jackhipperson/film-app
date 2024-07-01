@@ -35,3 +35,23 @@ export const getMoviesData = async (ids) => {
   const moviesData = await Promise.all(promises);
   return moviesData.filter(movie => movie !== null);
 };
+
+const fetchRecommendData = async (id) => {
+  try {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${API_KEY}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching data for movie ID ${id}:`, error);
+    return null;
+  }
+};
+
+export const getRecommendData = async (ids) => {
+  const promises = ids.map(id => fetchRecommendData(id));
+  const moviesData = await Promise.all(promises);
+  return moviesData.filter(movie => movie !== null);
+};

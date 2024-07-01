@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <LogIn /> },
       { path: "/watchlist", element: <Results title="WatchList" enteredSearch="none" /> },
       { path: "/favourites", element: <Results title="Favourites" enteredSearch="none" /> },
-      { path: "/recommended", element: <App /> },
+      { path: "/recommended", element: <Results title="Recommended" enteredSearch="none" /> },
     ],
   },
 ]);

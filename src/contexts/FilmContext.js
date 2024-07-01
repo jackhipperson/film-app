@@ -10,6 +10,7 @@ const FilmContext = createContext({
   favList: [],
   addFavList: (id) => {},
   favFilms: [],
+  recommendedFilms: [],
   modalOpen: "",
   setModalOpen: () => {},
   isLoading: "",

@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Modal from "../components/Modal";
 
 const Results = ({ searchResults, enteredSearch, title }) => {
-  const { isLoading, apiError, watchFilms, favFilms, modalOpen } =
+  const { isLoading, apiError, watchFilms, favFilms, recommendedFilms, modalOpen } =
     useContext(FilmContext);
   const location = useLocation().pathname;
   const [results, setResults] = useState("");
@@ -17,10 +17,12 @@ const Results = ({ searchResults, enteredSearch, title }) => {
       setResults(watchFilms);
     } else if (title === "Favourites") {
       setResults(favFilms);
+    } else if (title === "Recommended") {
+      setResults(recommendedFilms);
     } else {
       setResults(searchResults);
     }
-  }, [location, title, favFilms, watchFilms, searchResults]);
+  }, [location, title, favFilms, watchFilms, recommendedFilms, searchResults]);
 
   if (route === "/search" && enteredSearch.length < 3) {
     searchHelp = "Type 3 letters to start search";
