@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import search from "./icons/search.svg";
 import list from "./icons/list.svg";
 import fav0 from "./icons/fav0.svg";
 import thumb from "./icons/thumb.svg";
 import login from "./icons/login.svg";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -15,8 +15,9 @@ const Header = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   const smallScreen = screenWidth <= "640";
+
+
   return (
     <div className="sticky top-0 bg-yellow-500 border-b-2 border-yellow-900">
       <div className="flex content-stretch m-auto max-w-6xl">
@@ -24,29 +25,29 @@ const Header = () => {
           <h1 className="text-md md:text-2xl">Film App</h1>
         </div>
         <div className="flex ml-auto items-center text-right text-sm">
-          <Link
+          <NavLink
             to="/search"
-            className="p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"
+            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
           >
             {smallScreen ? (
               <img src={search} alt="Search" title="Search" width="40px" />
             ) : (
               <p>Search</p>
             )}
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/watchlist"
-            className="p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"
+            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
           >
             {smallScreen ? (
               <img src={list} alt="WatchList" title="WatchList" width="40px" />
             ) : (
               <p>Watch List</p>
             )}
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/favourites"
-            className="p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"
+            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
           >
             {smallScreen ? (
               <img
@@ -58,10 +59,10 @@ const Header = () => {
             ) : (
               <p>Favourites</p>
             )}
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/recommended"
-            className="p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"
+            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
           >
             {smallScreen ? (
               <img
@@ -73,17 +74,17 @@ const Header = () => {
             ) : (
               <p>Recommended</p>
             )}
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/login"
-            className="p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"
+            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
           >
             {smallScreen ? (
               <img src={login} alt="Log In" title="Log In" width="40px" />
             ) : (
               <p>Log In</p>
             )}
-          </Link>
+          </NavLink>
         </div>
       </div>
     </div>

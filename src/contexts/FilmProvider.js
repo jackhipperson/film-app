@@ -58,8 +58,6 @@ const FilmProvider = ({ children }) => {
     }
   }, [watchList, favList]);
 
-  console.log(recommendedFilms);
-
   // use effects as listeners for changes to fav list or watch list, to update local storage and run list update
   useEffect(() => {
     localStorage.setItem("userWatchList", JSON.stringify(watchList));

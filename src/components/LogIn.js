@@ -1,6 +1,6 @@
 const LogIn = () => {
   return (
-    <div className="flex flex-col my-12 max-w-lg mx-auto border border-yellow-800 rounded-xl text-center bg-white">
+    <div className="flex flex-col my-12 max-w-[90%] lg:max-w-lg mx-auto border border-yellow-800 rounded-xl text-center bg-white">
       <div>
         <h2 className="text-xl p-4">Welcome Back! Log In</h2>
       </div>

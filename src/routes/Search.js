@@ -56,7 +56,7 @@ const Search = () => {
         />
       </div>
       <div>
-        <Results searchResults={searchResults} enteredSearch={enteredSearch} />
+        <Results searchResults={searchResults.sort((a, b) => b.popularity - a.popularity)} enteredSearch={enteredSearch} />
       </div>
     </div>
   );
