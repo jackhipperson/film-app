@@ -1,6 +1,6 @@
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./Header";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 // mock header icons
 jest.mock("./icons/search.svg", () => "search-icon");
@@ -44,7 +44,7 @@ describe("Header Component", (initialEntries = ["/"]) => {
     expect(screen.getByText("Recommended")).toBeInTheDocument();
     expect(screen.getByText("Log In")).toBeInTheDocument();
     window.innerWidth = 500;
-    fireEvent(window, new Event('resize'))
+    fireEvent(window, new Event("resize"));
     expect(screen.getByText("Film App")).toBeInTheDocument();
     expect(screen.getByAltText("Search")).toBeInTheDocument();
     expect(screen.getByAltText("Watch List")).toBeInTheDocument();
@@ -54,16 +54,87 @@ describe("Header Component", (initialEntries = ["/"]) => {
   });
 
   test("Renders with icons on smaller screens", () => {
-    window.innerWidth = 500
-    renderHeader()
+    window.innerWidth = 500;
+    renderHeader();
     expect(screen.getByText("Film App")).toBeInTheDocument();
     expect(screen.getByAltText("Search")).toBeInTheDocument();
     expect(screen.getByAltText("Watch List")).toBeInTheDocument();
     expect(screen.getByAltText("Favourites")).toBeInTheDocument();
     expect(screen.getByAltText("Recommended")).toBeInTheDocument();
     expect(screen.getByAltText("Log In")).toBeInTheDocument();
-  })
+  });
 
-  test("Links have correct paths")
+  test("Links have correct paths", () => {
+    renderHeader();
+    expect(screen.getByText("Search").parentElement).toHaveAttribute(
+      "href",
+      "/search"
+    );
+    expect(screen.getByText("Watch List").parentElement).toHaveAttribute(
+      "href",
+      "/watchlist"
+    );
+    expect(screen.getByText("Favourites").parentElement).toHaveAttribute(
+      "href",
+      "/favourites"
+    );
+    expect(screen.getByText("Recommended").parentElement).toHaveAttribute(
+      "href",
+      "/recommended"
+    );
+    expect(screen.getByText("Log In").parentElement).toHaveAttribute(
+      "href",
+      "/login"
+    );
+  });
+
+  test("Active class works correctly", () => {
+    renderHeader();
+    // Check none have the active class first
+    expect(screen.getByText("Search").parentElement).not.toHaveClass(
+      "bg-yellow-600"
+    );
+    expect(screen.getByText("Watch List").parentElement).not.toHaveClass(
+      "bg-yellow-600"
+    );
+    expect(screen.getByText("Favourites").parentElement).not.toHaveClass(
+      "bg-yellow-600"
+    );
+    expect(screen.getByText("Recommended").parentElement).not.toHaveClass(
+      "bg-yellow-600"
+    );
+    expect(screen.getByText("Log In").parentElement).not.toHaveClass(
+      "bg-yellow-600"
+    );
+    act(() => {
+      fireEvent.click(screen.getByText("Search"));
+    });
+    expect(screen.getByText("Search").parentElement).toHaveClass(
+      "bg-yellow-600"
+    );
+    act(() => {
+      fireEvent.click(screen.getByText("Watch List"));
+    });
+    expect(screen.getByText("Watch List").parentElement).toHaveClass(
+      "bg-yellow-600"
+    );
+    act(() => {
+      fireEvent.click(screen.getByText("Favourites"));
+    });
+    expect(screen.getByText("Favourites").parentElement).toHaveClass(
+      "bg-yellow-600"
+    );
+    act(() => {
+      fireEvent.click(screen.getByText("Recommended"));
+    });
+    expect(screen.getByText("Recommended").parentElement).toHaveClass(
+      "bg-yellow-600"
+    );
+    act(() => {
+      fireEvent.click(screen.getByText("Log In"));
+    });
+    expect(screen.getByText("Log In").parentElement).toHaveClass(
+      "bg-yellow-600"
+    );
+  });
 });
-
