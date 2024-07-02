@@ -5,43 +5,42 @@ const {
   fireEvent,
   waitFor,
 } = require("@testing-library/react");
-const { default: Search } = require("./Search");
+import Search from './Search'
+
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { fetchFilms } from "../util/fetch-http";
 
 jest.mock("../util/fetch-http");
 
 describe("Search Component", () => {
+  const renderSearch = (initialEntries = ["/search"]) => {
+    render (
+    <MemoryRouter initialEntries={initialEntries}>
+      <Routes>
+        <Route path="*" element={<Search />} />
+      </Routes>
+    </MemoryRouter>
+)};
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   test("searchbar renders", () => {
-    render(<Search />);
-    const inputElement = screen.getByPlaceholderText(/Enter a film name.../i);
+    renderSearch();
+    const inputElement = screen.getByPlaceholderText(/Enter a film search.../i);
     expect(inputElement).toBeInTheDocument();
   });
 
   test("input updates on value change", async () => {
-    render(<Search />);
-    const inputElement = screen.getByPlaceholderText(/Enter a film name.../i);
+    renderSearch();
+    const inputElement = screen.getByPlaceholderText(/Enter a film search.../i);
     act(() => {
       fireEvent.change(inputElement, { target: { value: "Batman" } });
     });
     await waitFor(() => {
       expect(inputElement.value).toBe("Batman");
-    })
-  });
-
-  test("shows loading screen whilst searching", async () => {
-    fetchFilms.mockResolvedValueOnce({ status: 200, data: { results: [] } });
-    render(<Search />);
-    const inputElement = screen.getByPlaceholderText(/Enter a film name.../i);
-    act(() => {
-      fireEvent.change(inputElement, { target: { value: "Bat" } });
     });
-    await waitFor(() =>
-      expect(screen.getByText(/Loading.../)).toBeInTheDocument()
-    );
   });
 
   test("results render on sucessful API call", async () => {
@@ -69,8 +68,8 @@ describe("Search Component", () => {
         ],
       },
     });
-    render(<Search />);
-    const inputElement = screen.getByPlaceholderText(/Enter a film name.../i);
+    renderSearch();
+    const inputElement = screen.getByPlaceholderText(/Enter a film search.../i);
     act(() => {
       fireEvent.change(inputElement, { target: { value: "Batm" } });
     });

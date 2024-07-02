@@ -40,7 +40,7 @@ const Header = () => {
             className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
           >
             {smallScreen ? (
-              <img src={list} alt="WatchList" title="WatchList" width="40px" />
+              <img src={list} alt="Watch List" title="Watch List" width="40px" />
             ) : (
               <p>Watch List</p>
             )}
