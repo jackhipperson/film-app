@@ -1,6 +1,8 @@
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./Header";
 import { act, fireEvent, render, screen } from "@testing-library/react";
+import FilmContext from "../contexts/FilmContext";
+import FilmProvider from "../contexts/FilmProvider";
 
 // mock header icons
 jest.mock("./icons/search.svg", () => "search-icon");
@@ -9,20 +11,29 @@ jest.mock("./icons/fav0.svg", () => "fav-icon");
 jest.mock("./icons/thumb.svg", () => "thumb-icon");
 jest.mock("./icons/login.svg", () => "login-icon");
 
-describe("Header Component", (initialEntries = ["/"]) => {
-  const renderHeader = () => {
-    render(
+const customRender = (ui, { providerProps, ...renderOptions } = {}) => {
+  return render(
+    <FilmProvider {...providerProps}>{ui}</FilmProvider>,
+    renderOptions
+  );
+};
+
+describe("Header Component", () => {
+  const renderHeader = (initialEntries = ["/"]) => {
+    customRender(
       <MemoryRouter initialEntries={initialEntries}>
         <Routes>
           <Route path="*" element={<Header />} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   };
 
   beforeEach(() => {
-    // reset window size before each test
-    window.innerWidth = 1024;
+    act(() => {
+      global.innerWidth = 1024;
+      global.dispatchEvent(new Event("resize"));
+    });
   });
 
   test("Header renders with title and text links (1024px)", () => {
@@ -43,8 +54,10 @@ describe("Header Component", (initialEntries = ["/"]) => {
     expect(screen.getByText("Favourites")).toBeInTheDocument();
     expect(screen.getByText("Recommended")).toBeInTheDocument();
     expect(screen.getByText("Log In")).toBeInTheDocument();
-    window.innerWidth = 500;
-    fireEvent(window, new Event("resize"));
+    act(() => {
+      global.innerWidth = 620;
+      global.dispatchEvent(new Event("resize"));
+    });
     expect(screen.getByText("Film App")).toBeInTheDocument();
     expect(screen.getByAltText("Search")).toBeInTheDocument();
     expect(screen.getByAltText("Watch List")).toBeInTheDocument();
@@ -54,7 +67,10 @@ describe("Header Component", (initialEntries = ["/"]) => {
   });
 
   test("Renders with icons on smaller screens", () => {
-    window.innerWidth = 500;
+    act(() => {
+      global.innerWidth = 620;
+      global.dispatchEvent(new Event("resize"));
+    });
     renderHeader();
     expect(screen.getByText("Film App")).toBeInTheDocument();
     expect(screen.getByAltText("Search")).toBeInTheDocument();

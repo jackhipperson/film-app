@@ -1,22 +1,11 @@
-import search from "./icons/search.svg";
-import list from "./icons/list.svg";
-import fav0 from "./icons/fav0.svg";
-import thumb from "./icons/thumb.svg";
-import login from "./icons/login.svg";
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import searchIcon from "./icons/search.svg";
+import watchListIcon from "./icons/list.svg";
+import favIcon from "./icons/fav0.svg";
+import recommendedIcon from "./icons/thumb.svg";
+import loginIcon from "./icons/login.svg";
+import HeaderLink from "./ui/HeaderLink";
 
 const Header = () => {
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  const smallScreen = screenWidth <= "640";
-
 
   return (
     <div className="sticky top-0 bg-yellow-500 border-b-2 border-yellow-900">
@@ -25,66 +14,31 @@ const Header = () => {
           <h1 className="text-md md:text-2xl">Film App</h1>
         </div>
         <div className="flex ml-auto items-center text-right text-sm">
-          <NavLink
-            to="/search"
-            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
-          >
-            {smallScreen ? (
-              <img src={search} alt="Search" title="Search" width="40px" />
-            ) : (
-              <p>Search</p>
-            )}
-          </NavLink>
-          <NavLink
-            to="/watchlist"
-            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
-          >
-            {smallScreen ? (
-              <img src={list} alt="Watch List" title="Watch List" width="40px" />
-            ) : (
-              <p>Watch List</p>
-            )}
-          </NavLink>
-          <NavLink
-            to="/favourites"
-            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
-          >
-            {smallScreen ? (
-              <img
-                src={fav0}
-                alt="Favourites"
-                title="Favourites"
-                width="40px"
-              />
-            ) : (
-              <p>Favourites</p>
-            )}
-          </NavLink>
-          <NavLink
-            to="/recommended"
-            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
-          >
-            {smallScreen ? (
-              <img
-                src={thumb}
-                alt="Recommended"
-                title="Recommended"
-                width="40px"
-              />
-            ) : (
-              <p>Recommended</p>
-            )}
-          </NavLink>
-          <NavLink
-            to="/login"
-            className={({isActive}) => isActive ? "p-2 cursor-pointer bg-yellow-600 rounded-sm" : "p-2 cursor-pointer hover:bg-yellow-600 rounded-sm"}
-          >
-            {smallScreen ? (
-              <img src={login} alt="Log In" title="Log In" width="40px" />
-            ) : (
-              <p>Log In</p>
-            )}
-          </NavLink>
+          <HeaderLink
+            link="/search"
+            icon={searchIcon}
+            title="Search"
+          />
+          <HeaderLink
+            link="/watchlist"
+            icon={watchListIcon}
+            title="Watch List"
+          />
+          <HeaderLink
+            link="/favourites"
+            icon={favIcon}
+            title="Favourites"
+          />
+          <HeaderLink
+            link="/recommended"
+            icon={recommendedIcon}
+            title="Recommended"
+          />
+          <HeaderLink
+            link="/login"
+            icon={loginIcon}
+            title="Log In"
+          />
         </div>
       </div>
     </div>

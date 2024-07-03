@@ -20,7 +20,9 @@ const FilmProvider = ({ children }) => {
   // set film details for results
   const [watchFilms, setWatchFilms] = useState([]);
   const [favFilms, setFavFilms] = useState([]);
-  const [recommendedFilms, setRecommendedFilms] = useState([])
+  const [recommendedFilms, setRecommendedFilms] = useState([]);
+  // screen size state
+  const [smallScreen, setSmallScreen] = useState(window.innerWidth <= 640);
 
   // On film item click, add the film details to the selected film state
   function setSelectedFilmHandler(film) {
@@ -30,11 +32,11 @@ const FilmProvider = ({ children }) => {
   // search component loading and error handling
   const setLoadingHandler = useCallback((value) => {
     setIsLoading(value);
-  },[]);
+  }, []);
 
   const setApiErrorHandler = useCallback((value) => {
     setApiError(value);
-  },[]);
+  }, []);
 
   // API Call to populate watch list and fav list
   const fetchLists = useCallback(async () => {
@@ -48,9 +50,9 @@ const FilmProvider = ({ children }) => {
     }
     try {
       const movies = await getMoviesData(favList);
-      const recommended = await getRecommendData(favList)
+      const recommended = await getRecommendData(favList);
       setFavFilms(movies);
-      setRecommendedFilms(recommended)
+      setRecommendedFilms(recommended);
     } catch (error) {
       setApiError(error);
     } finally {
@@ -99,6 +101,15 @@ const FilmProvider = ({ children }) => {
     document.body.style.overflow = "auto";
   }
 
+  // handle screen resize
+  useEffect(() => {
+    const handleResize = () => {
+      setSmallScreen(window.innerWidth <= 640);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const filmContext = {
     selectedFilm,
     setSelectedFilmHandler,
@@ -115,6 +126,7 @@ const FilmProvider = ({ children }) => {
     apiError,
     setLoadingHandler,
     setApiErrorHandler,
+    smallScreen
   };
   return (
     <FilmContext.Provider value={filmContext}>{children}</FilmContext.Provider>
