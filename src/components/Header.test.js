@@ -19,14 +19,16 @@ const customRender = (ui, { providerProps, ...renderOptions } = {}) => {
 };
 
 describe("Header Component", () => {
-  const renderHeader = (initialEntries = ["/"]) => {
-    customRender(
-      <MemoryRouter initialEntries={initialEntries}>
-        <Routes>
-          <Route path="*" element={<Header />} />
-        </Routes>
-      </MemoryRouter>,
-    );
+  const renderHeader = async (initialEntries = ["/"]) => {
+    await act(() => {
+        customRender(
+            <MemoryRouter initialEntries={initialEntries}>
+              <Routes>
+                <Route path="*" element={<Header />} />
+              </Routes>
+            </MemoryRouter>,
+          );
+    })
   };
 
   beforeEach(() => {

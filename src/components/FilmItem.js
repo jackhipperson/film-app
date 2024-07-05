@@ -7,13 +7,13 @@ import FilmContext from "../contexts/FilmContext";
 
 const FilmItem = ({ film }) => {
   const filmCtx = useContext(FilmContext);
-  const smallScreen = window.innerWidth <= "640";
+  const smallScreen = window.innerWidth <= 640;
   const maxLength = smallScreen ? 120 : 150;
   const titleLength = smallScreen ? 50 : 150;
   const longDesc = film.overview.length > maxLength;
   const longTitle = film.title.length > titleLength;
-  const favButton = filmCtx.favList.includes(film.id) ? fav1 : fav0
-  const watchButton = filmCtx.watchList.includes(film.id) ? rem : add
+  const favButton = filmCtx.favList.includes(film.id) ? fav1 : fav0;
+  const watchButton = filmCtx.watchList.includes(film.id) ? rem : add;
 
   const openModal = () => {
     filmCtx.setSelectedFilmHandler(film);
@@ -21,14 +21,14 @@ const FilmItem = ({ film }) => {
   };
 
   const addWatchList = (e) => {
-    e.stopPropagation()
-    filmCtx.addWatchList(film.id)
-  }
+    e.stopPropagation();
+    filmCtx.addWatchList(film.id);
+  };
 
   const addFavList = (e) => {
-    e.stopPropagation()
-    filmCtx.addFavList(film.id)
-  }
+    e.stopPropagation();
+    filmCtx.addFavList(film.id);
+  };
 
   return (
     <li
@@ -49,10 +49,10 @@ const FilmItem = ({ film }) => {
         </div>
 
         <div className="flex-col flex-1">
-          <p className="font-bold p-1 lg:p-2 text-sm lg:text-lg">
+          <p className="font-bold p-1 lg:p-2 text-sm lg:text-lg">{window.innerWidth}
             {film.title.slice(0, titleLength)}
-            {longTitle && "..."}{" "}
-              ({film.release_date.slice(0, 4)})
+            {longTitle && "..." && " "} (
+            <span>{film.release_date.slice(0, 4)}</span>)
           </p>
           <p className="p-1 lg:p-2 text-xs lg:text-sm">
             {film.overview.slice(0, maxLength)}
@@ -61,16 +61,16 @@ const FilmItem = ({ film }) => {
           <div className="flex justify-end pr-2 py-1 lg:py-2">
             <img
               src={favButton}
-              alt="Favourites"
-              title="Favourites"
+              alt="Favourite"
+              title="Favourite"
               width="30px"
               className="mx-2"
               onClick={addFavList}
             />
             <img
               src={watchButton}
-              alt="Watchlist"
-              title="Watchlist"
+              alt="Watch List"
+              title="Watch List"
               width="30px"
               className="mx-2"
               onClick={addWatchList}

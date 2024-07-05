@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import FilmContext from "./FilmContext";
 import { getMoviesData, getRecommendData } from "../util/fetch-http";
 
@@ -110,24 +110,45 @@ const FilmProvider = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const filmContext = {
-    selectedFilm,
-    setSelectedFilmHandler,
-    watchList,
-    addWatchList,
-    watchFilms,
-    favList,
-    addFavList,
-    favFilms,
-    recommendedFilms,
-    modalOpen,
-    toggleModal,
-    isLoading,
-    apiError,
-    setLoadingHandler,
-    setApiErrorHandler,
-    smallScreen
-  };
+  const filmContext = useMemo(
+    () => ({
+      selectedFilm,
+      setSelectedFilmHandler,
+      watchList,
+      addWatchList,
+      watchFilms,
+      favList,
+      addFavList,
+      favFilms,
+      recommendedFilms,
+      modalOpen,
+      toggleModal,
+      isLoading,
+      apiError,
+      setLoadingHandler,
+      setApiErrorHandler,
+      smallScreen,
+    }),
+    [
+      selectedFilm,
+      setSelectedFilmHandler,
+      watchList,
+      addWatchList,
+      watchFilms,
+      favList,
+      addFavList,
+      favFilms,
+      recommendedFilms,
+      modalOpen,
+      toggleModal,
+      isLoading,
+      apiError,
+      setLoadingHandler,
+      setApiErrorHandler,
+      smallScreen,
+    ]
+  );
+  
   return (
     <FilmContext.Provider value={filmContext}>{children}</FilmContext.Provider>
   );
