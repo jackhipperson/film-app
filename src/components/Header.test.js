@@ -1,7 +1,6 @@
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./Header";
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import FilmContext from "../contexts/FilmContext";
 import FilmProvider from "../contexts/FilmProvider";
 
 // mock header icons
@@ -21,14 +20,14 @@ const customRender = (ui, { providerProps, ...renderOptions } = {}) => {
 describe("Header Component", () => {
   const renderHeader = async (initialEntries = ["/"]) => {
     await act(() => {
-        customRender(
-            <MemoryRouter initialEntries={initialEntries}>
-              <Routes>
-                <Route path="*" element={<Header />} />
-              </Routes>
-            </MemoryRouter>,
-          );
-    })
+      customRender(
+        <MemoryRouter initialEntries={initialEntries}>
+          <Routes>
+            <Route path="*" element={<Header />} />
+          </Routes>
+        </MemoryRouter>
+      );
+    });
   };
 
   beforeEach(() => {

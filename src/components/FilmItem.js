@@ -1,30 +1,35 @@
 import { useContext } from "react";
-import add from "./icons/add.svg";
-import fav0 from "./icons/fav0.svg";
-import fav1 from "./icons/fav1.svg";
-import rem from "./icons/rem.svg";
+import addIcon from "./icons/add.svg";
+import favAddIcon from "./icons/fav0.svg";
+import favRemIcon from "./icons/fav1.svg";
+import remIcon from "./icons/rem.svg";
 import FilmContext from "../contexts/FilmContext";
 
 const FilmItem = ({ film }) => {
+  // Get film context
   const filmCtx = useContext(FilmContext);
-  const smallScreen = window.innerWidth <= 640;
-  const maxLength = smallScreen ? 120 : 150;
-  const titleLength = smallScreen ? 50 : 150;
+  // Set length of title and description and then set indicators if max length is hit
+  const maxLength = filmCtx.smallScreen ? 120 : 150;
+  const titleLength = filmCtx.smallScreen ? 50 : 150;
   const longDesc = film.overview.length > maxLength;
   const longTitle = film.title.length > titleLength;
-  const favButton = filmCtx.favList.includes(film.id) ? fav1 : fav0;
-  const watchButton = filmCtx.watchList.includes(film.id) ? rem : add;
+  // Set which icon is used depending on whether film item is in a list
+  const favButton = filmCtx.favList.includes(film.id) ? favRemIcon : favAddIcon;
+  const watchButton = filmCtx.watchList.includes(film.id) ? remIcon : addIcon;
 
+  // Function to call modal opening handler in context
   const openModal = () => {
     filmCtx.setSelectedFilmHandler(film);
     filmCtx.toggleModal();
   };
 
+  // Function to call add to watchlist in context. stopPropagation used to stop modal opening on click instead of this function
   const addWatchList = (e) => {
     e.stopPropagation();
     filmCtx.addWatchList(film.id);
   };
 
+  // Function to call add to favourites in context. stopPropagation used to stop modal opening on click instead of this function
   const addFavList = (e) => {
     e.stopPropagation();
     filmCtx.addFavList(film.id);
@@ -49,7 +54,7 @@ const FilmItem = ({ film }) => {
         </div>
 
         <div className="flex-col flex-1">
-          <p className="font-bold p-1 lg:p-2 text-sm lg:text-lg">{window.innerWidth}
+          <p className="font-bold p-1 lg:p-2 text-sm lg:text-lg">
             {film.title.slice(0, titleLength)}
             {longTitle && "..." && " "} (
             <span>{film.release_date.slice(0, 4)}</span>)

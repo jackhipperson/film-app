@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import FilmContext from "../contexts/FilmContext";
 import FilmItem from "./FilmItem";
 
@@ -27,6 +27,7 @@ const mockFilmContextValue = {
   toggleModal: jest.fn(),
   addWatchList: jest.fn(),
   addFavList: jest.fn(),
+  smallScreen: false
 };
 
 describe("FilmItem Component", () => {
@@ -41,13 +42,6 @@ describe("FilmItem Component", () => {
     );
   };
 
-  beforeEach(() => {
-    act(() => {
-      global.innerWidth = "1024";
-      global.dispatchEvent(new Event("resize"));
-    });
-  });
-
   test("FilmItem renders correctly", () => {
     renderFilmItem();
     expect(
@@ -55,23 +49,24 @@ describe("FilmItem Component", () => {
         /Berserk: The Golden Age Arc II - The Battle for Doldrey/i
       )
     ).toBeInTheDocument();
-    expect(screen.getByText("2022")).toBeInTheDocument()
+    expect(screen.getByText("2022")).toBeInTheDocument();
     expect(
       screen.getByText(
         "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as ..."
       )
     ).toBeInTheDocument();
-    expect(screen.getByAltText("Berserk: The Golden Age Arc II - The Battle for Doldrey")).toBeInTheDocument();
+    expect(
+      screen.getByAltText(
+        "Berserk: The Golden Age Arc II - The Battle for Doldrey"
+      )
+    ).toBeInTheDocument();
     expect(screen.getByAltText("Favourite")).toBeInTheDocument();
     expect(screen.getByAltText("Watch List")).toBeInTheDocument();
   });
 
-  test("Title and overview truncate correctly", () => {
-    act(() => {
-      global.innerWidth = 600;
-      global.dispatchEvent(new Event("resize"));
-    });
-    renderFilmItem();
+  test("Renders correctly on small screen. Title and overview truncate correctly", () => {
+    const smallScreenContext = {...mockFilmContextValue, smallScreen: true}
+    renderFilmItem(mockFilmData, smallScreenContext);
     expect(
       screen.getByText(/Berserk: The Golden Age Arc II - The Battle for Do.../i)
     ).toBeInTheDocument();
@@ -81,5 +76,59 @@ describe("FilmItem Component", () => {
         "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while fa..."
       )
     ).toBeInTheDocument();
+    expect(screen.getByAltText("Favourite")).toBeInTheDocument();
+    expect(screen.getByAltText("Watch List")).toBeInTheDocument();
   });
+
+  test("Clicking Favourite button calls the addFavList function", () => {
+    renderFilmItem();
+    const favButton = screen.getByAltText("Favourite");
+    act(() => {
+      fireEvent.click(favButton);
+    });
+    expect(mockFilmContextValue.addFavList).toHaveBeenCalledWith(
+      mockFilmData.id
+    );
+  });
+
+  test("Clicking Watch List button calls the addWatchList function", () => {
+    renderFilmItem();
+    const favButton = screen.getByAltText("Watch List");
+    act(() => {
+      fireEvent.click(favButton);
+    });
+    expect(mockFilmContextValue.addWatchList).toHaveBeenCalledWith(
+      mockFilmData.id
+    );
+  });
+
+  test("Clicking Title opens Modal", () => {
+    renderFilmItem()
+    const clickedItem = screen.getByText(/Berserk: The Golden Age Arc II - The Battle for Doldrey/i)
+    act(() => {
+        fireEvent.click(clickedItem)
+    })
+    expect(mockFilmContextValue.toggleModal).toHaveBeenCalled()
+    expect(mockFilmContextValue.setSelectedFilmHandler).toHaveBeenCalledWith(mockFilmData)
+  })
+
+  test("Clicking Image opens Modal", () => {
+    renderFilmItem()
+    const clickedItem = screen.getByAltText(/Berserk: The Golden Age Arc II - The Battle for Doldrey/i)
+    act(() => {
+        fireEvent.click(clickedItem)
+    })
+    expect(mockFilmContextValue.toggleModal).toHaveBeenCalled()
+    expect(mockFilmContextValue.setSelectedFilmHandler).toHaveBeenCalledWith(mockFilmData)
+  })
+
+  test("Clicking Overview opens Modal", () => {
+    renderFilmItem()
+    const clickedItem = screen.getByText(/In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as/i)
+    act(() => {
+        fireEvent.click(clickedItem)
+    })
+    expect(mockFilmContextValue.toggleModal).toHaveBeenCalled()
+    expect(mockFilmContextValue.setSelectedFilmHandler).toHaveBeenCalledWith(mockFilmData)
+  })
 });

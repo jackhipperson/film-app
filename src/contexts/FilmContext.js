@@ -17,7 +17,7 @@ const FilmContext = createContext({
   apiError: "",
   setLoadingHandler: (value) => {},
   setApiErrorHandler: (value) => {},
-  smallScreen: ""
+  smallScreen: true
 });
 
 export default FilmContext;
