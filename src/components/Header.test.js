@@ -18,8 +18,8 @@ const customRender = (ui, { providerProps, ...renderOptions } = {}) => {
 };
 
 describe("Header Component", () => {
-  const renderHeader = async (initialEntries = ["/"]) => {
-    await act(() => {
+  const renderHeader =  (initialEntries = ["/"]) => {
+     act(() => {
       customRender(
         <MemoryRouter initialEntries={initialEntries}>
           <Routes>

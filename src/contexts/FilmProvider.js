@@ -2,18 +2,17 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import FilmContext from "./FilmContext";
 import { getMoviesData, getRecommendData } from "../util/fetch-http";
 
+const getLocalStorage = (key, defaultValue) => {
+  const localItems = localStorage.getItem(key)
+  return localItems ? JSON.parse(localItems) : defaultValue 
+}
+
 const FilmProvider = ({ children }) => {
   // Selected film is the focus of the modal pop up
-  const [selectedFilm, setSelectedFilm] = useState("");
+  const [selectedFilm, setSelectedFilm] = useState(null);
   // State set up, getting local storage if available, if not, empty array
-  const [watchList, setWatchList] = useState(() => {
-    const localItems = localStorage.getItem("userWatchList");
-    return localItems ? JSON.parse(localItems) : [];
-  });
-  const [favList, setFavList] = useState(() => {
-    const localItems = localStorage.getItem("userFavList");
-    return localItems ? JSON.parse(localItems) : [];
-  });
+  const [watchList, setWatchList] = useState(() => getLocalStorage("userWatchList",[]));
+  const [favList, setFavList] = useState(() => getLocalStorage("userFavList", []))
   // States for Results Component
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
@@ -25,9 +24,9 @@ const FilmProvider = ({ children }) => {
   const [smallScreen, setSmallScreen] = useState(window.innerWidth <= 640);
 
   // On film item click, add the film details to the selected film state
-  function setSelectedFilmHandler(film) {
+  const setSelectedFilmHandler = useCallback((film) => {
     setSelectedFilm(film);
-  }
+  },[]);
 
   // search component loading and error handling
   const setLoadingHandler = useCallback((value) => {
@@ -71,35 +70,34 @@ const FilmProvider = ({ children }) => {
     fetchLists();
   }, [favList, fetchLists]);
 
-  function addWatchList(id) {
+  const addWatchList = useCallback((id) => {
     if (!watchList.includes(id)) {
       setWatchList((prevState) => [...prevState, id]);
     } else {
       setWatchList(watchList.filter((film) => film !== id));
     }
-  }
+  },[watchList]);
 
-  function addFavList(id) {
+  const addFavList = useCallback((id) => {
     if (!favList.includes(id)) {
       setFavList((prevState) => [...prevState, id]);
     } else {
       setFavList(favList.filter((film) => film !== id));
     }
-  }
+  },[favList])
 
   // Modal State
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const toggleModal = () => {
+  const toggleModal = useCallback(() => {
     setModalOpen((prevState) => !prevState);
-  };
+  },[]);
 
-  if (modalOpen) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
+  // disable scrolling if modal open
+  useEffect(() => {
+    document.body.style.overflow = modalOpen ? "hidden" : "auto"
+  }, [modalOpen])
 
   // handle screen resize
   useEffect(() => {
@@ -148,7 +146,7 @@ const FilmProvider = ({ children }) => {
       smallScreen,
     ]
   );
-  
+
   return (
     <FilmContext.Provider value={filmContext}>{children}</FilmContext.Provider>
   );
