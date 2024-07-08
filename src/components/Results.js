@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import FilmItem from "./FilmItem";
 import FilmContext from "../contexts/FilmContext";
-import Modal from "../components/Modal";
+import Modal from "./ui/Modal";
 
 const Results = ({ searchResults, enteredSearch, title }) => {
   const {

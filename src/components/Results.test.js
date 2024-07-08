@@ -135,7 +135,7 @@ const dummyFilms4 = [
 ];
 
 // Mock the modal to test opening
-jest.mock("./Modal", () => () => <div data-testid="modal" />);
+jest.mock("./ui/Modal", () => () => <div data-testid="modal" />);
 
 const renderResults = (contextValue, props) => {
   return render(

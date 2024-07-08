@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import ReactDOM from "react-dom";
-import FilmContext from "../contexts/FilmContext";
-import closeIcon from "./icons/close.svg";
-import addWatchIcon from "./icons/add.svg";
-import addFavIcon from "./icons/fav0.svg";
-import remFavIcon from "./icons/fav1.svg";
-import remWatchIcon from "./icons/rem.svg";
+import FilmContext from "../../contexts/FilmContext";
+import closeIcon from "../icons/close.svg";
+import addWatchIcon from "../icons/add.svg";
+import addFavIcon from "../icons/fav0.svg";
+import remFavIcon from "../icons/fav1.svg";
+import remWatchIcon from "../icons/rem.svg";
 
 // Backdrop of the modal, grey background that closes the modal on click
 const Backdrop = () => {
@@ -120,6 +120,7 @@ const Modal = () => {
   const { selectedFilm } = useContext(FilmContext);
   return (
     <>
+    {console.log(selectedFilm)}
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
       {ReactDOM.createPortal(
         <ModalOverlay selectedFilm={selectedFilm} />,
