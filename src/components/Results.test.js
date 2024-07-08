@@ -6,7 +6,7 @@ import { render, screen } from "@testing-library/react";
 const mockFilmContext = {
   isLoading: false,
   apiError: null,
-  watchList:[],
+  watchList: [],
   watchFilms: [],
   favList: [],
   favFilms: [],
@@ -105,34 +105,37 @@ const dummyFilms3 = [
 ];
 
 const dummyFilms4 = [
-    {
-      id: 10,
-      title: "Forrest Gump",
-      overview: "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal, and other historical events unfold from the perspective of an Alabama man with an IQ of 75.",
-      rating: 8.8,
-      release_date: "1994-07-06",
-      poster_path: "h5J4W4veyxMXDMjeNxZI46TsHOb.jpg"
-    },
-    {
-      id: 11,
-      title: "The Shawshank Redemption",
-      overview: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-      rating: 9.3,
-      release_date: "1994-09-22",
-      poster_path: "q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg"
-    },
-    {
-      id: 12,
-      title: "Fight Club",
-      overview: "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
-      rating: 8.8,
-      release_date: "1999-10-15",
-      poster_path: "a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg"
-    }
-  ];
+  {
+    id: 10,
+    title: "Forrest Gump",
+    overview:
+      "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal, and other historical events unfold from the perspective of an Alabama man with an IQ of 75.",
+    rating: 8.8,
+    release_date: "1994-07-06",
+    poster_path: "h5J4W4veyxMXDMjeNxZI46TsHOb.jpg",
+  },
+  {
+    id: 11,
+    title: "The Shawshank Redemption",
+    overview:
+      "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+    rating: 9.3,
+    release_date: "1994-09-22",
+    poster_path: "q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
+  },
+  {
+    id: 12,
+    title: "Fight Club",
+    overview:
+      "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
+    rating: 8.8,
+    release_date: "1999-10-15",
+    poster_path: "a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg",
+  },
+];
 
-  // Mock the modal to test opening
-  jest.mock("./Modal", ()=> () => <div data-testid="modal" />)
+// Mock the modal to test opening
+jest.mock("./Modal", () => () => <div data-testid="modal" />);
 
 const renderResults = (contextValue, props) => {
   return render(
@@ -145,17 +148,17 @@ const renderResults = (contextValue, props) => {
 };
 
 describe("Results Component", () => {
-// General Testing
-test("check modal opens", () => {
-    const contextValue = { ...mockFilmContext, modalOpen:true};
-    renderResults(contextValue,{
-        searchResults: [],
-        enteredSearch: "abc",
-        title: "Search",
-      });
-      expect(screen.getByTestId("modal")).toBeInTheDocument()
-  })
-  
+  // General Testing
+  test("check modal opens", () => {
+    const contextValue = { ...mockFilmContext, modalOpen: true };
+    renderResults(contextValue, {
+      searchResults: [],
+      enteredSearch: "abc",
+      title: "Search",
+    });
+    expect(screen.getByTestId("modal")).toBeInTheDocument();
+  });
+
   // Search screen results
   test("search help text renders when entered search under 3 characters", () => {
     renderResults(mockFilmContext, {
@@ -207,40 +210,183 @@ test("check modal opens", () => {
   });
 
   test("search results renders correctly", () => {
-    const contextValue = { ...mockFilmContext, favFilms: dummyFilms1, watchFilms: dummyFilms2, recommendedFilms: dummyFilms4};
-    renderResults(contextValue, {searchResults: dummyFilms3, enteredSearch:"abc", title: "Search"})
-    expect(screen.getByText(/The Matrix/)).toBeInTheDocument
-    expect(screen.getByText(/Pulp Fiction/)).toBeInTheDocument
-    expect(screen.getByText(/The Godfather/)).toBeInTheDocument
-  })
+    const contextValue = {
+      ...mockFilmContext,
+      favFilms: dummyFilms1,
+      watchFilms: dummyFilms2,
+      recommendedFilms: dummyFilms4,
+    };
+    renderResults(contextValue, {
+      searchResults: dummyFilms3,
+      enteredSearch: "abc",
+      title: "Search",
+    });
+    expect(screen.getByText(/The Matrix/)).toBeInTheDocument;
+    expect(screen.getByText(/Pulp Fiction/)).toBeInTheDocument;
+    expect(screen.getByText(/The Godfather/)).toBeInTheDocument;
+    expect(screen.queryByText("Type 3 letters to start search")).toBeNull();
+    expect(screen.queryByText("No results!")).toBeNull();
+  });
+
+  // Favourites screen tests
+  test("loading renders correctly", () => {
+    const contextValue = {
+      ...mockFilmContext,
+      isLoading: true,
+      favFilms: dummyFilms1,
+    };
+    renderResults(contextValue, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "Favourites",
+    });
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+  });
+
+  test("error renders correctly", () => {
+    const contextValue = { ...mockFilmContext, apiError: "There was an error" };
+    renderResults(contextValue, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "Favourites",
+    });
+    expect(screen.getByText("Error: There was an error"));
+  });
+
+  test("no results renders correctly", () => {
+    renderResults(mockFilmContext, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "Favourites",
+    });
+    expect(screen.getByText("No results!")).toBeInTheDocument();
+  });
 
   test("favourites results renders correctly", () => {
-    const contextValue = { ...mockFilmContext, favFilms: dummyFilms1, watchFilms: dummyFilms2, recommendedFilms: dummyFilms4};
-    renderResults(contextValue, {searchResults: dummyFilms3, enteredSearch:"abc", title: "Favourites"})
-    expect(screen.getByText(/Favourites/)).toBeInTheDocument    
-    expect(screen.getByText(/Inception/)).toBeInTheDocument
-    expect(screen.getByText(/The Dark Knight/)).toBeInTheDocument
-    expect(screen.getByText(/Interstellar/)).toBeInTheDocument
-  })
+    const contextValue = {
+      ...mockFilmContext,
+      favFilms: dummyFilms1,
+      watchFilms: dummyFilms2,
+      recommendedFilms: dummyFilms4,
+    };
+    renderResults(contextValue, {
+      searchResults: dummyFilms3,
+      enteredSearch: "abc",
+      title: "Favourites",
+    });
+    expect(screen.getByText(/Favourites/)).toBeInTheDocument;
+    expect(screen.getByText(/Inception/)).toBeInTheDocument;
+    expect(screen.getByText(/The Dark Knight/)).toBeInTheDocument;
+    expect(screen.getByText(/Interstellar/)).toBeInTheDocument;
+    expect(screen.queryByText("Type 3 letters to start search")).toBeNull();
+    expect(screen.queryByText("No results!")).toBeNull();
+  });
+
+  // Watch List screen tests
+  test("loading renders correctly", () => {
+    const contextValue = {
+      ...mockFilmContext,
+      isLoading: true,
+      watchFilms: dummyFilms1,
+    };
+    renderResults(contextValue, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "WatchList",
+    });
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+  });
+
+  test("error renders correctly", () => {
+    const contextValue = { ...mockFilmContext, apiError: "There was an error" };
+    renderResults(contextValue, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "WatchList",
+    });
+    expect(screen.getByText("Error: There was an error"));
+  });
+
+  test("no results renders correctly", () => {
+    renderResults(mockFilmContext, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "WatchList",
+    });
+    expect(screen.getByText("No results!")).toBeInTheDocument();
+  });
 
   test("watch list results renders correctly", () => {
-    const contextValue = { ...mockFilmContext, favFilms: dummyFilms1, watchFilms: dummyFilms2, recommendedFilms: dummyFilms4};
-    renderResults(contextValue, {searchResults: dummyFilms3, enteredSearch:"abc", title: "WatchList"})
-    expect(screen.getByText(/WatchList/)).toBeInTheDocument    
-    expect(screen.getByText(/Parasite/)).toBeInTheDocument
-    expect(screen.getByText(/Joker/)).toBeInTheDocument
-    expect(screen.getByText(/Avengers: Endgame/)).toBeInTheDocument
-  })
+    const contextValue = {
+      ...mockFilmContext,
+      favFilms: dummyFilms1,
+      watchFilms: dummyFilms2,
+      recommendedFilms: dummyFilms4,
+    };
+    renderResults(contextValue, {
+      searchResults: dummyFilms3,
+      enteredSearch: "abc",
+      title: "WatchList",
+    });
+    expect(screen.getByText(/WatchList/)).toBeInTheDocument;
+    expect(screen.getByText(/Parasite/)).toBeInTheDocument;
+    expect(screen.getByText(/Joker/)).toBeInTheDocument;
+    expect(screen.getByText(/Avengers: Endgame/)).toBeInTheDocument;
+    expect(screen.queryByText("Type 3 letters to start search")).toBeNull();
+    expect(screen.queryByText("No results!")).toBeNull();
+  });
+
+  // Recommended screen tests
+  test("loading renders correctly", () => {
+    const contextValue = {
+      ...mockFilmContext,
+      isLoading: true,
+      recommendedFilms: dummyFilms1,
+    };
+    renderResults(contextValue, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "Recommended",
+    });
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+  });
+
+  test("error renders correctly", () => {
+    const contextValue = { ...mockFilmContext, apiError: "There was an error" };
+    renderResults(contextValue, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "Recommended",
+    });
+    expect(screen.getByText("Error: There was an error"));
+  });
+
+  test("no results renders correctly", () => {
+    renderResults(mockFilmContext, {
+      searchResults: [],
+      enteredSearch: "none",
+      title: "Recommended",
+    });
+    expect(screen.getByText("No results!")).toBeInTheDocument();
+  });
 
   test("recommended results renders correctly", () => {
-    const contextValue = { ...mockFilmContext, favFilms: dummyFilms1, watchFilms: dummyFilms2, recommendedFilms: dummyFilms4};
-    renderResults(contextValue, {searchResults: dummyFilms3, enteredSearch:"abc", title: "Recommended"})
-    expect(screen.getByText(/Recommended/)).toBeInTheDocument    
-    expect(screen.getByText(/Forrest Gump/)).toBeInTheDocument
-    expect(screen.getByText(/The Shawshank Redemption/)).toBeInTheDocument
-    expect(screen.getByText(/Fight Club/)).toBeInTheDocument
-  })
-
-
-
+    const contextValue = {
+      ...mockFilmContext,
+      favFilms: dummyFilms1,
+      watchFilms: dummyFilms2,
+      recommendedFilms: dummyFilms4,
+    };
+    renderResults(contextValue, {
+      searchResults: dummyFilms3,
+      enteredSearch: "abc",
+      title: "Recommended",
+    });
+    expect(screen.getByText(/Recommended/)).toBeInTheDocument;
+    expect(screen.getByText(/Forrest Gump/)).toBeInTheDocument;
+    expect(screen.getByText(/The Shawshank Redemption/)).toBeInTheDocument;
+    expect(screen.getByText(/Fight Club/)).toBeInTheDocument;
+    expect(screen.queryByText("Type 3 letters to start search")).toBeNull();
+    expect(screen.queryByText("No results!")).toBeNull();
+  });
 });
