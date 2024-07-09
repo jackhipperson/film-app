@@ -11,7 +11,7 @@ const HelpItem = ({ icon, title, children }) => {
               alt={title}
               height="auto"
               width="50px"
-            />{" "}
+            />
             {title}
           </span>
         </h2>
