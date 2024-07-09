@@ -1,9 +1,9 @@
-import LogIn from "../components/LogIn";
+import Help from "../components/Help";
 
 function App() {
   return (
     <>
-      <LogIn />
+      <Help />
     </>
   );
 }

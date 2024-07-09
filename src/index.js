@@ -5,9 +5,9 @@ import App from "./routes/App";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./routes/RootLayout";
-import LogIn from "./components/LogIn";
+import Help from "./components/Help";
 import Results from "./components/Results";
-import Search from "./routes/Search";
+import Search from "./components/Search";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <App /> },
       { path: "/search", element: <Search /> },
-      { path: "/login", element: <LogIn /> },
+      { path: "/help", element: <Help /> },
       { path: "/watchlist", element: <Results title="WatchList" enteredSearch="none" /> },
       { path: "/favourites", element: <Results title="Favourites" enteredSearch="none" /> },
       { path: "/recommended", element: <Results title="Recommended" enteredSearch="none" /> },

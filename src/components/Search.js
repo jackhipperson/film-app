@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { fetchFilms } from "../util/fetch-http";
-import Results from "../components/Results";
+import Results from "./Results";
 import FilmContext from "../contexts/FilmContext";
 
 const Search = () => {
