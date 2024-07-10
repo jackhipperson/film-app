@@ -9,7 +9,14 @@ export const fetchFilms = async (search) => {
   const status = res.status;
 
   const results = {
-    data: data,
+    data: {
+      id: data.id,
+      title: data.title,
+      overview: data.overview,
+      poster_path: data.poster_path,
+      release_date: data.release_date,
+      vote_average: data.vote_average,
+    },
     status: status,
   };
 
@@ -35,7 +42,9 @@ const fetchMovieData = async (id) => {
 export const getMoviesData = async (ids) => {
   const promises = ids.map((id) => fetchMovieData(id));
   const moviesData = await Promise.all(promises);
-  return moviesData.filter((movie) => movie !== null).sort((a, b) => b.popularity - a.popularity);;
+  return moviesData
+    .filter((movie) => movie !== null)
+    .sort((a, b) => b.popularity - a.popularity);
 };
 
 const fetchRecommendData = async (id) => {

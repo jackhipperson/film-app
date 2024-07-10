@@ -4,8 +4,9 @@ import favIcon from "./icons/fav0.svg";
 import recommendedIcon from "./icons/thumb.svg";
 import HelpItem from "./ui/HelpItem";
 import HelpIcon from "./ui/HelpIcon";
+import React from "react";
 
-const Help = () => {
+const Help: React.FC = () => {
   return (
     <div className="flex flex-col my-12 max-w-[90%] p-4 lg:max-w-lg mx-auto border border-yellow-800 rounded-xl text-center bg-white">
       <div>

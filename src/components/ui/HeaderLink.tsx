@@ -1,8 +1,11 @@
+import React from "react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import FilmContext from "../../contexts/FilmContext";
 
-const HeaderLink = ({ link, icon, title }) => {
+interface headerProps { link: string, icon: string, title: string }
+
+const HeaderLink: React.FC<headerProps> = ({link, icon, title}) => {
   const { smallScreen } = useContext(FilmContext);
   return (
     <NavLink

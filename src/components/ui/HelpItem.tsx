@@ -1,4 +1,12 @@
-const HelpItem = ({ icon, title, children }) => {
+import React from "react";
+
+interface helpItemProps {
+    icon: string,
+    title: string,
+    children: React.ReactNode
+}
+
+const HelpItem: React.FC<helpItemProps> = ({ icon, title, children }) => {
   return (
     <div className="my-6">
       <div className="flex justify-center">

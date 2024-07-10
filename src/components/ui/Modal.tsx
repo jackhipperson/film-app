@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import FilmContext from "../../contexts/FilmContext";
+import FilmContext, { filmObject } from "../../contexts/FilmContext";
 import closeIcon from "../icons/close.svg";
 import addWatchIcon from "../icons/add.svg";
 import addFavIcon from "../icons/fav0.svg";
@@ -8,7 +8,7 @@ import remFavIcon from "../icons/fav1.svg";
 import remWatchIcon from "../icons/rem.svg";
 
 // Backdrop of the modal, grey background that closes the modal on click
-const Backdrop = () => {
+const Backdrop: React.FC = () => {
   const { toggleModal } = useContext(FilmContext);
   return (
     <div
@@ -19,7 +19,7 @@ const Backdrop = () => {
 };
 
 // Modal overlay with film details
-const ModalOverlay = () => {
+const ModalOverlay: React.FC = () => {
   const {
     favList,
     watchList,
@@ -30,6 +30,11 @@ const ModalOverlay = () => {
     setApiErrorHandler,
     setLoadingHandler,
   } = useContext(FilmContext);
+  
+  if (!selectedFilm) {
+    return null
+  }
+
   const favButton = favList.includes(selectedFilm.id) ? remFavIcon : addFavIcon;
   const watchButton = watchList.includes(selectedFilm.id)
     ? remWatchIcon
@@ -116,14 +121,15 @@ const ModalOverlay = () => {
 const portalElement = document.getElementById("overlays");
 
 // Main modal component that renders the modal backdrop and component using portal so appears on top of App screen
-const Modal = () => {
-  const { selectedFilm } = useContext(FilmContext);
+const Modal: React.FC = () => {
+  if (!portalElement) {
+    return null
+  }
   return (
     <>
-    {console.log(selectedFilm)}
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
       {ReactDOM.createPortal(
-        <ModalOverlay selectedFilm={selectedFilm} />,
+        <ModalOverlay/>,
         portalElement
       )}
     </>

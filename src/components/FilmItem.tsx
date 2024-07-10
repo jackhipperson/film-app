@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import React, { MouseEvent, useContext } from "react";
 import addIcon from "./icons/add.svg";
 import favAddIcon from "./icons/fav0.svg";
 import favRemIcon from "./icons/fav1.svg";
 import remIcon from "./icons/rem.svg";
-import FilmContext from "../contexts/FilmContext";
+import FilmContext, { filmObject } from "../contexts/FilmContext";
 
-const FilmItem = ({ film }) => {
+const FilmItem: React.FC<filmObject> = (film) => {
   // Get film context
   const filmCtx = useContext(FilmContext);
   // Set length of title and description and then set indicators if max length is hit
@@ -24,13 +24,13 @@ const FilmItem = ({ film }) => {
   };
 
   // Function to call add to watchlist in context. stopPropagation used to stop modal opening on click instead of this function
-  const addWatchList = (e) => {
+  const addWatchList = (e: MouseEvent<HTMLImageElement>) => {
     e.stopPropagation();
     filmCtx.addWatchList(film.id);
   };
 
   // Function to call add to favourites in context. stopPropagation used to stop modal opening on click instead of this function
-  const addFavList = (e) => {
+  const addFavList = (e: MouseEvent<HTMLImageElement>) => {
     e.stopPropagation();
     filmCtx.addFavList(film.id);
   };

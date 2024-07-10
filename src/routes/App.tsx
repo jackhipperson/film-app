@@ -1,6 +1,7 @@
+import React from "react";
 import Help from "../components/Help";
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <Help />

@@ -1,39 +1,53 @@
+import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react";
-import FilmContext from "./FilmContext";
+import FilmContext, { FilmContextType, filmObject } from "./FilmContext";
 import { getMoviesData, getRecommendData } from "../util/fetch-http";
 
-const getLocalStorage = (key, defaultValue) => {
-  const localItems = localStorage.getItem(key)
-  return localItems ? JSON.parse(localItems) : defaultValue 
+interface filmProviderProps {
+  children: React.ReactNode;
 }
 
-const FilmProvider = ({ children }) => {
+const getLocalStorage = <T extends unknown>(
+  key: string,
+  defaultValue: T
+): T => {
+  const localItems = localStorage.getItem(key);
+  return localItems ? JSON.parse(localItems) : defaultValue;
+};
+
+const FilmProvider: React.FC<filmProviderProps> = ({ children }) => {
   // Selected film is the focus of the modal pop up
-  const [selectedFilm, setSelectedFilm] = useState(null);
+  const [selectedFilm, setSelectedFilm] = useState<filmObject | null>(null);
   // State set up, getting local storage if available, if not, empty array
-  const [watchList, setWatchList] = useState(() => getLocalStorage("userWatchList",[]));
-  const [favList, setFavList] = useState(() => getLocalStorage("userFavList", []))
+  const [watchList, setWatchList] = useState<number[]>(() =>
+    getLocalStorage("userWatchList", [])
+  );
+  const [favList, setFavList] = useState<number[]>(() =>
+    getLocalStorage("userFavList", [])
+  );
   // States for Results Component
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   // set film details for results
-  const [watchFilms, setWatchFilms] = useState([]);
-  const [favFilms, setFavFilms] = useState([]);
-  const [recommendedFilms, setRecommendedFilms] = useState([]);
+  const [watchFilms, setWatchFilms] = useState<object[]>([]);
+  const [favFilms, setFavFilms] = useState<object[]>([]);
+  const [recommendedFilms, setRecommendedFilms] = useState<any[]>([]);
   // screen size state
-  const [smallScreen, setSmallScreen] = useState(window.innerWidth <= 640);
+  const [smallScreen, setSmallScreen] = useState<boolean>(
+    window.innerWidth <= 640
+  );
 
   // On film item click, add the film details to the selected film state
-  const setSelectedFilmHandler = useCallback((film) => {
+  const setSelectedFilmHandler = useCallback((film: filmObject) => {
     setSelectedFilm(film);
-  },[]);
+  }, []);
 
   // search component loading and error handling
-  const setLoadingHandler = useCallback((value) => {
+  const setLoadingHandler = useCallback((value: boolean) => {
     setIsLoading(value);
   }, []);
 
-  const setApiErrorHandler = useCallback((value) => {
+  const setApiErrorHandler = useCallback((value: string) => {
     setApiError(value);
   }, []);
 
@@ -44,16 +58,16 @@ const FilmProvider = ({ children }) => {
     try {
       const movies = await getMoviesData(watchList);
       setWatchFilms(movies);
-    } catch (error) {
-      setApiError(error);
+    } catch (error: unknown) {
+      setApiError(String(error));
     }
     try {
       const movies = await getMoviesData(favList);
       const recommended = await getRecommendData(favList);
       setFavFilms(movies);
       setRecommendedFilms(recommended);
-    } catch (error) {
-      setApiError(error);
+    } catch (error: unknown) {
+      setApiError(String(error));
     } finally {
       setIsLoading(false);
     }
@@ -70,21 +84,27 @@ const FilmProvider = ({ children }) => {
     fetchLists();
   }, [favList, fetchLists]);
 
-  const addWatchList = useCallback((id) => {
-    if (!watchList.includes(id)) {
-      setWatchList((prevState) => [...prevState, id]);
-    } else {
-      setWatchList(watchList.filter((film) => film !== id));
-    }
-  },[watchList]);
+  const addWatchList = useCallback(
+    (id: number) => {
+      if (!watchList.includes(id)) {
+        setWatchList((prevState) => [...prevState, id]);
+      } else {
+        setWatchList(watchList.filter((film) => film !== id));
+      }
+    },
+    [watchList]
+  );
 
-  const addFavList = useCallback((id) => {
-    if (!favList.includes(id)) {
-      setFavList((prevState) => [...prevState, id]);
-    } else {
-      setFavList(favList.filter((film) => film !== id));
-    }
-  },[favList])
+  const addFavList = useCallback(
+    (id: number) => {
+      if (!favList.includes(id)) {
+        setFavList((prevState) => [...prevState, id]);
+      } else {
+        setFavList(favList.filter((film) => film !== id));
+      }
+    },
+    [favList]
+  );
 
   // Modal State
 
@@ -92,12 +112,12 @@ const FilmProvider = ({ children }) => {
 
   const toggleModal = useCallback(() => {
     setModalOpen((prevState) => !prevState);
-  },[]);
+  }, []);
 
   // disable scrolling if modal open
   useEffect(() => {
-    document.body.style.overflow = modalOpen ? "hidden" : "auto"
-  }, [modalOpen])
+    document.body.style.overflow = modalOpen ? "hidden" : "auto";
+  }, [modalOpen]);
 
   // handle screen resize
   useEffect(() => {
@@ -108,7 +128,7 @@ const FilmProvider = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const filmContext = useMemo(
+  const filmContext: FilmContextType = useMemo(
     () => ({
       selectedFilm,
       setSelectedFilmHandler,

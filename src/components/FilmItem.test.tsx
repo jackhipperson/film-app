@@ -1,5 +1,6 @@
+import React from "react";
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import FilmContext from "../contexts/FilmContext";
+import FilmContext, { FilmContextType } from "../contexts/FilmContext";
 import FilmItem from "./FilmItem";
 
 // Mock the icons
@@ -14,7 +15,7 @@ const mockFilmData = {
   title: "Berserk: The Golden Age Arc II - The Battle for Doldrey",
   overview:
     "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as the Riddler.",
-  rating: 7.68,
+  vote_average: 7.68,
   release_date: "2022-02-23",
   poster_path: "74xTEgt7R36Fpooo50r9T25onhq.jpg",
 };
@@ -27,17 +28,26 @@ const mockFilmContextValue = {
   toggleModal: jest.fn(),
   addWatchList: jest.fn(),
   addFavList: jest.fn(),
-  smallScreen: false
+  smallScreen: false,
+  selectedFilm: null,
+  watchFilms: [],
+  modalOpen: false,
+  isLoading: false,
+  apiError: null,
+  setLoadingHandler: jest.fn(),
+  setApiErrorHandler: jest.fn(),
+  favFilms: [],
+  recommendedFilms: []
 };
 
 describe("FilmItem Component", () => {
   const renderFilmItem = (
-    film = mockFilmData,
-    context = mockFilmContextValue
+    film: typeof mockFilmData = mockFilmData,
+    context: FilmContextType = mockFilmContextValue
   ) => {
     return render(
       <FilmContext.Provider value={context}>
-        <FilmItem film={film} />
+        <FilmItem {...film} />
       </FilmContext.Provider>
     );
   };

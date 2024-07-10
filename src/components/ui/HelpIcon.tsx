@@ -1,4 +1,11 @@
-const HelpIcon = ({icon, title}) => {
+import React from "react"
+
+interface helpIconProps {
+  icon:string,
+  title:string
+}
+
+const HelpIcon: React.FC<helpIconProps> = ({icon, title}) => {
     return (
         <img
         className="inline"
