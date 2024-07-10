@@ -2,6 +2,7 @@ import React from "react";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import FilmContext, { FilmContextType } from "../contexts/FilmContext";
 import FilmItem from "./FilmItem";
+import { populate } from "dotenv";
 
 // Mock the icons
 jest.mock("./icons/add.svg", () => "add.svg");
@@ -18,6 +19,7 @@ const mockFilmData = {
   vote_average: 7.68,
   release_date: "2022-02-23",
   poster_path: "74xTEgt7R36Fpooo50r9T25onhq.jpg",
+  popularity:5
 };
 
 // Mock App Context
@@ -47,7 +49,7 @@ describe("FilmItem Component", () => {
   ) => {
     return render(
       <FilmContext.Provider value={context}>
-        <FilmItem {...film} />
+        <FilmItem film={film} />
       </FilmContext.Provider>
     );
   };

@@ -45,7 +45,7 @@ describe("Search Component", () => {
     });
   });
 
-  test("results render on sucessful API call", async () => {
+  test("results render on sucessful API call", () => {
     const mockApiResponse: ApiResponse = {
       status: 200,
       data: [
@@ -68,7 +68,7 @@ describe("Search Component", () => {
     act(() => {
       fireEvent.change(inputElement, { target: { value: "Batm" } });
     });
-    await waitFor(() => {
+    waitFor(() => {
       expect(screen.getByText(/batman begins/i)).toBeInTheDocument();
     });
   });

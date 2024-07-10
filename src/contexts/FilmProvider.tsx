@@ -47,7 +47,7 @@ const FilmProvider: React.FC<filmProviderProps> = ({ children }) => {
     setIsLoading(value);
   }, []);
 
-  const setApiErrorHandler = useCallback((value: string) => {
+  const setApiErrorHandler = useCallback((value: string | null) => {
     setApiError(value);
   }, []);
 
