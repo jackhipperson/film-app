@@ -5,7 +5,11 @@ import favRemIcon from "./icons/fav1.svg";
 import remIcon from "./icons/rem.svg";
 import FilmContext, { filmObject } from "../contexts/FilmContext";
 
-const FilmItem: React.FC<filmObject> = (film) => {
+interface filmItemProps {
+  film: filmObject
+}
+
+const FilmItem: React.FC<filmItemProps> = ({film}) => {
   // Get film context
   const filmCtx = useContext(FilmContext);
   // Set length of title and description and then set indicators if max length is hit

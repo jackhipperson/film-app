@@ -2,6 +2,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./Header";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import FilmProvider from "../contexts/FilmProvider";
+import React, { ReactElement } from "react";
 
 // mock header icons
 jest.mock("./icons/search.svg", () => "search-icon");
@@ -10,7 +11,15 @@ jest.mock("./icons/fav0.svg", () => "fav-icon");
 jest.mock("./icons/thumb.svg", () => "thumb-icon");
 jest.mock("./icons/thumb.svg", () => "help-icon");
 
-const customRender = (ui, { providerProps, ...renderOptions } = {}) => {
+interface customRenderProps {
+  providerProps?: any;
+  [key: string]: any;
+}
+
+const customRender = (
+  ui: React.ReactElement,
+  { providerProps, ...renderOptions }: customRenderProps = {}
+) => {
   return render(
     <FilmProvider {...providerProps}>{ui}</FilmProvider>,
     renderOptions
@@ -18,8 +27,8 @@ const customRender = (ui, { providerProps, ...renderOptions } = {}) => {
 };
 
 describe("Header Component", () => {
-  const renderHeader =  (initialEntries = ["/"]) => {
-     return act(() => {
+  const renderHeader = (initialEntries = ["/"]) => {
+    return act(() => {
       customRender(
         <MemoryRouter initialEntries={initialEntries}>
           <Routes>
@@ -150,8 +159,6 @@ describe("Header Component", () => {
     act(() => {
       fireEvent.click(screen.getByText("Help"));
     });
-    expect(screen.getByText("Help").parentElement).toHaveClass(
-      "bg-yellow-600"
-    );
+    expect(screen.getByText("Help").parentElement).toHaveClass("bg-yellow-600");
   });
 });

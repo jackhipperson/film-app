@@ -1,9 +1,10 @@
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import FilmContext from "../contexts/FilmContext";
+import FilmContext, { FilmContextType, filmObject } from "../contexts/FilmContext";
 import Results from "./Results";
 import { render, screen } from "@testing-library/react";
 
-const mockFilmContext = {
+const mockFilmContext: FilmContextType = {
   isLoading: false,
   apiError: null,
   watchList: [],
@@ -12,132 +13,152 @@ const mockFilmContext = {
   favFilms: [],
   recommendedFilms: [],
   modalOpen: false,
+  selectedFilm: null,
+  setSelectedFilmHandler: () => {},
+  addWatchList: () => {},
+  addFavList: () => {},
+  toggleModal: () => {},
+  setLoadingHandler: () => {}, 
+  setApiErrorHandler: () => {}, 
+  smallScreen: false
 };
 
-const dummyFilms1 = [
+const dummyFilms1: filmObject[] = [
   {
     id: 1,
     title: "Inception",
     overview:
       "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",
-    rating: 8.8,
+    vote_average: 8.8,
     release_date: "2010-07-16",
     poster_path: "qmDpIHrmpJINaRKAfWQfftjCdyi.jpg",
+    popularity:5
   },
   {
     id: 2,
     title: "The Dark Knight",
     overview:
       "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham.",
-    rating: 9.0,
+    vote_average: 9.0,
     release_date: "2008-07-18",
     poster_path: "qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+    popularity:5
   },
   {
     id: 3,
     title: "Interstellar",
     overview:
       "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-    rating: 8.6,
+    vote_average: 8.6,
     release_date: "2014-11-07",
     poster_path: "gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    popularity:5
   },
 ];
 
-const dummyFilms2 = [
+const dummyFilms2: filmObject[] = [
   {
     id: 1,
     title: "Parasite",
     overview:
       "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
-    rating: 8.6,
+    vote_average: 8.6,
     release_date: "2019-11-08",
     poster_path: "7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+    popularity:5
   },
   {
     id: 2,
     title: "Joker",
     overview:
       "In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime.",
-    rating: 8.4,
+    vote_average: 8.4,
     release_date: "2019-10-04",
     poster_path: "udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+    popularity:5
   },
   {
     id: 3,
     title: "Avengers: Endgame",
     overview:
       "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
-    rating: 8.4,
+    vote_average: 8.4,
     release_date: "2019-04-26",
     poster_path: "or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+    popularity:5
   },
 ];
 
-const dummyFilms3 = [
+const dummyFilms3: filmObject[] = [
   {
     id: 1,
     title: "The Matrix",
     overview:
       "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
-    rating: 8.7,
+    vote_average: 8.7,
     release_date: "1999-03-31",
     poster_path: "f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+    popularity:5
   },
   {
     id: 2,
     title: "Pulp Fiction",
     overview:
       "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-    rating: 8.9,
+    vote_average: 8.9,
     release_date: "1994-10-14",
     poster_path: "dM2w364MScsjFf8pfMbaWUcWrR.jpg",
+    popularity:5
   },
   {
     id: 3,
     title: "The Godfather",
     overview:
       "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-    rating: 9.2,
+    vote_average: 9.2,
     release_date: "1972-03-24",
     poster_path: "3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+    popularity:5
   },
 ];
 
-const dummyFilms4 = [
+const dummyFilms4: filmObject[] = [
   {
     id: 10,
     title: "Forrest Gump",
     overview:
       "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal, and other historical events unfold from the perspective of an Alabama man with an IQ of 75.",
-    rating: 8.8,
+    vote_average: 8.8,
     release_date: "1994-07-06",
     poster_path: "h5J4W4veyxMXDMjeNxZI46TsHOb.jpg",
+    popularity:5
   },
   {
     id: 11,
     title: "The Shawshank Redemption",
     overview:
       "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-    rating: 9.3,
+    vote_average: 9.3,
     release_date: "1994-09-22",
     poster_path: "q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
+    popularity:5
   },
   {
     id: 12,
     title: "Fight Club",
     overview:
       "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
-    rating: 8.8,
+    vote_average: 8.8,
     release_date: "1999-10-15",
     poster_path: "a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg",
+    popularity:5
   },
 ];
 
 // Mock the modal to test opening
 jest.mock("./ui/Modal", () => () => <div data-testid="modal" />);
 
-const renderResults = (contextValue, props) => {
+const renderResults = (contextValue: FilmContextType, props: any) => {
   return render(
     <FilmContext.Provider value={contextValue}>
       <BrowserRouter>

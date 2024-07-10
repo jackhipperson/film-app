@@ -1,9 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FilmItem from "./FilmItem";
-import FilmContext from "../contexts/FilmContext";
+import FilmContext, { filmObject } from "../contexts/FilmContext";
 import Modal from "./ui/Modal";
 
-const Results = ({ searchResults, enteredSearch, title }) => {
+interface resultsProps {
+  searchResults: filmObject[];
+  enteredSearch: string;
+  title: string;
+}
+
+const Results: React.FC<resultsProps> = ({
+  searchResults,
+  enteredSearch,
+  title,
+}) => {
   const {
     isLoading,
     apiError,
@@ -12,7 +22,7 @@ const Results = ({ searchResults, enteredSearch, title }) => {
     recommendedFilms,
     modalOpen,
   } = useContext(FilmContext);
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<filmObject[]>([]);
 
   let searchHelp;
 
@@ -30,8 +40,8 @@ const Results = ({ searchResults, enteredSearch, title }) => {
 
   searchHelp =
     title === "Search" && enteredSearch.length < 3
-      ? (searchHelp = "Type 3 letters to start search")
-      : (searchHelp = "");
+      ? "Type 3 letters to start search"
+      : "";
 
   return (
     <>
@@ -53,7 +63,7 @@ const Results = ({ searchResults, enteredSearch, title }) => {
         </div>
         <div>
           <ul>
-            {results.map((item) => {
+            {results.map((item: filmObject) => {
               return <FilmItem key={item.id} film={item} />;
             })}
           </ul>

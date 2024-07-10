@@ -7,6 +7,7 @@ export interface filmObject {
     poster_path: string,
     release_date: string,
     vote_average: number,
+    popularity: number
 }
 
 export interface FilmContextType {
@@ -24,7 +25,7 @@ export interface FilmContextType {
   isLoading: boolean,
   apiError: string | null,
   setLoadingHandler: (value: boolean) => void,
-  setApiErrorHandler: (error: string) => void,
+  setApiErrorHandler: (error: string | null) => void,
   smallScreen: boolean
 }
 

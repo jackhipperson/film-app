@@ -9,7 +9,13 @@ import Help from "./components/Help";
 import Results from "./components/Results";
 import Search from "./components/Search";
 
-const router = createBrowserRouter([
+interface RouteConfig {
+  path: string,
+  element: JSX.Element
+  children?: RouteConfig[]
+}
+
+const routerConfig: RouteConfig[] =[
   {
     path: "/",
     element: <RootLayout />,
@@ -17,15 +23,23 @@ const router = createBrowserRouter([
       { path: "/", element: <App /> },
       { path: "/search", element: <Search /> },
       { path: "/help", element: <Help /> },
-      { path: "/watchlist", element: <Results title="WatchList" enteredSearch="none" /> },
-      { path: "/favourites", element: <Results title="Favourites" enteredSearch="none" /> },
-      { path: "/recommended", element: <Results title="Recommended" enteredSearch="none" /> },
+      { path: "/watchlist", element: <Results title="WatchList" enteredSearch="none" searchResults={[]} /> },
+      { path: "/favourites", element: <Results title="Favourites" enteredSearch="none" searchResults={[]}  /> },
+      { path: "/recommended", element: <Results title="Recommended" enteredSearch="none" searchResults={[]}  /> },
     ],
-  },
-]);
+  }
+]
+const router = createBrowserRouter(routerConfig)
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const rootElement = document.getElementById('root')
+
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
 root.render(<RouterProvider router={router} />);
+} else {
+  console.log("Root element with id 'root' not found.");
+  
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

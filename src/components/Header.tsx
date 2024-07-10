@@ -4,8 +4,9 @@ import favIcon from "./icons/fav0.svg";
 import recommendedIcon from "./icons/thumb.svg";
 import helpIcon from "./icons/help.svg";
 import HeaderLink from "./ui/HeaderLink";
+import React from "react";
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <div className="sticky top-0 bg-yellow-500 border-b-2 border-yellow-900">
       <div className="flex content-stretch m-auto max-w-6xl">

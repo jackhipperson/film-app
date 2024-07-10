@@ -1,16 +1,18 @@
-import { useCallback, useContext, useEffect, useState } from "react";
-import { fetchFilms } from "../util/fetch-http";
+import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from "react";
+import { ApiResponse, fetchFilms } from "../util/fetch-http";
 import Results from "./Results";
-import FilmContext from "../contexts/FilmContext";
+import FilmContext, { filmObject } from "../contexts/FilmContext";
 
-const Search = () => {
+const Search: React.FC = () => {
   // enteredSearch is a state that holds the users search term. searchResults will hold the results from the API call
-  const [enteredSearch, setEnteredSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [enteredSearch, setEnteredSearch] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<filmObject[]>([]);
   const { setLoadingHandler, setApiErrorHandler } = useContext(FilmContext);
 
   // function called with every letter entered in the search bar to update enteredSearch state
-  const handleSearch = (event) => {
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) {
+    }
     setEnteredSearch(event.target.value);
   };
 
@@ -20,7 +22,7 @@ const Search = () => {
     setApiErrorHandler(null);
     if (enteredSearch.length >= 3) {
       try {
-        let apiResult = await fetchFilms(enteredSearch);
+        let apiResult: any = await fetchFilms(enteredSearch);
         if (apiResult.status !== 200) {
           setApiErrorHandler(
             apiResult.message || "There was an error fetching the data"
@@ -29,7 +31,7 @@ const Search = () => {
           setSearchResults(apiResult.data.results);
           setApiErrorHandler(null);
         }
-      } catch (error) {
+      } catch (error: any) {
         setApiErrorHandler(error);
         setSearchResults([]);
       }

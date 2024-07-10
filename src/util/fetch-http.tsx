@@ -1,29 +1,51 @@
 const API_KEY = process.env.REACT_APP_API_KEY;
+import { filmObject } from "../contexts/FilmContext";
 
-export const fetchFilms = async (search) => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${search}&api_key=${API_KEY}`
-  );
+export interface ApiResponse {
+  data: filmObject[];
+  status: number;
+  message?: string;
+}
 
-  const data = await res.json();
-  const status = res.status;
+export const fetchFilms = async (search: string) => {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${search}&api_key=${API_KEY}`
+    );
 
-  const results = {
-    data: {
-      id: data.id,
-      title: data.title,
-      overview: data.overview,
-      poster_path: data.poster_path,
-      release_date: data.release_date,
-      vote_average: data.vote_average,
-    },
-    status: status,
-  };
+    const status: number = res.status;
+    if (status !== 200){
+      throw new Error(`http error: status ${status}`)
+    }
 
-  return results;
+    const data: any = await res.json();
+
+    const filmResults: filmObject[] = [];
+
+    (data.results || []).forEach((film: filmObject) => {
+      filmResults.push({
+        id: film.id,
+        title: film.title,
+        overview: film.overview,
+        poster_path: film.poster_path,
+        release_date: film.release_date,
+        vote_average: film.vote_average,
+        popularity: film.popularity,
+      });
+    });
+
+    const results: ApiResponse = {
+      data: filmResults,
+      status: status,
+    };
+
+    return results;
+  } catch (error: any) {
+    throw new Error(error);
+  }
 };
 
-const fetchMovieData = async (id) => {
+const fetchMovieData = async (id: number) => {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
@@ -39,7 +61,7 @@ const fetchMovieData = async (id) => {
   }
 };
 
-export const getMoviesData = async (ids) => {
+export const getMoviesData = async (ids: number[]) => {
   const promises = ids.map((id) => fetchMovieData(id));
   const moviesData = await Promise.all(promises);
   return moviesData
@@ -47,7 +69,7 @@ export const getMoviesData = async (ids) => {
     .sort((a, b) => b.popularity - a.popularity);
 };
 
-const fetchRecommendData = async (id) => {
+const fetchRecommendData = async (id: number) => {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${API_KEY}`
@@ -63,7 +85,7 @@ const fetchRecommendData = async (id) => {
   }
 };
 
-export const getRecommendData = async (ids) => {
+export const getRecommendData = async (ids: number[]) => {
   const numResults = 30 / ids.length || "30";
   const promises = ids.map((id) => fetchRecommendData(id));
   const moviesData = await Promise.all(promises);
