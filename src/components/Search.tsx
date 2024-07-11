@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from "react";
-import { ApiResponse, fetchFilms } from "../util/fetch-http";
+import { fetchFilms } from "../util/fetch-http";
 import Results from "./Results";
 import FilmContext, { filmObject } from "../contexts/FilmContext";
 
