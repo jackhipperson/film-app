@@ -8,7 +8,7 @@ import React from "react";
 
 const Help: React.FC = () => {
   return (
-    <div className="flex flex-col my-12 max-w-[90%] p-4 lg:max-w-lg mx-auto border border-yellow-800 rounded-xl text-center bg-white">
+    <div className="flex flex-col my-12 max-w-[90%] p-16 lg:max-w-4xl mx-auto border border-yellow-800 rounded-xl text-center bg-white">
       <div>
         <h2 className="text-3xl p-4">Film App!</h2>
       </div>

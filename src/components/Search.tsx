@@ -28,7 +28,7 @@ const Search: React.FC = () => {
             apiResult.message || "There was an error fetching the data"
           );
         } else {
-          setSearchResults(apiResult.data.results);
+          setSearchResults(apiResult.data);          
           setApiErrorHandler(null);
         }
       } catch (error: any) {
