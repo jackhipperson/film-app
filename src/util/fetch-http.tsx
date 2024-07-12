@@ -1,5 +1,5 @@
-const API_KEY = process.env.REACT_APP_API_KEY;
 import { filmObject } from "../contexts/FilmContext";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 export interface ApiResponse {
   data: filmObject[];

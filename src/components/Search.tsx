@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { fetchFilms } from "../util/fetch-http";
 import Results from "./Results";
 import FilmContext, { filmObject } from "../contexts/FilmContext";
@@ -28,7 +34,7 @@ const Search: React.FC = () => {
             apiResult.message || "There was an error fetching the data"
           );
         } else {
-          setSearchResults(apiResult.data);          
+          setSearchResults(apiResult.data);
           setApiErrorHandler(null);
         }
       } catch (error: any) {
@@ -50,6 +56,7 @@ const Search: React.FC = () => {
     <div className="max-w-6xl mx-auto my-10 text-center">
       <div>
         <input
+          id="search"
           onChange={handleSearch}
           value={enteredSearch}
           className="w-[90%] p-2 border rounded-lg border-yellow-600 text-3xl lg:text-xl shadow-lg"
@@ -58,7 +65,13 @@ const Search: React.FC = () => {
         />
       </div>
       <div>
-        <Results searchResults={searchResults.sort((a, b) => b.popularity - a.popularity)} enteredSearch={enteredSearch} title="Search" />
+        <Results
+          searchResults={searchResults.sort(
+            (a, b) => b.popularity - a.popularity
+          )}
+          enteredSearch={enteredSearch}
+          title="Search"
+        />
       </div>
     </div>
   );
