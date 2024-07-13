@@ -29,16 +29,12 @@ const Search: React.FC = () => {
     if (enteredSearch.length >= 3) {
       try {
         let apiResult: any = await fetchFilms(enteredSearch);
-        if (apiResult.status !== 200) {
-          setApiErrorHandler(
-            apiResult.message || "There was an error fetching the data"
-          );
-        } else {
           setSearchResults(apiResult.data);
           setApiErrorHandler(null);
-        }
       } catch (error: any) {
-        setApiErrorHandler(error);
+        console.log(error.message);
+        
+        setApiErrorHandler(error.message);
         setSearchResults([]);
       }
     } else {

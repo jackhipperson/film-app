@@ -52,7 +52,7 @@ const Results: React.FC<resultsProps> = ({
         </h2>
         <div className=" min-h-6 h-6">
           {apiError ? (
-            <p className="text-red-600 ">Error: {apiError}</p>
+            <p className="text-red-600 ">{apiError}</p>
           ) : isLoading ? (
             <p>Loading...</p>
           ) : enteredSearch.length >= 3 && results.length === 0 ? (
@@ -63,7 +63,7 @@ const Results: React.FC<resultsProps> = ({
         </div>
         <div>
           <ul>
-            {results.map((item: filmObject) => {
+            {!apiError && results.map((item: filmObject) => {
               return <FilmItem key={item.id} film={item} />;
             })}
           </ul>

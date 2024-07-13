@@ -212,7 +212,7 @@ describe("Results Component", () => {
   });
 
   test("error renders correctly", () => {
-    const contextValue = { ...mockFilmContext, apiError: "There was an error" };
+    const contextValue = { ...mockFilmContext, apiError: "Error: There was an error" };
     renderResults(contextValue, {
       searchResults: [],
       enteredSearch: "abc",
@@ -265,7 +265,7 @@ describe("Results Component", () => {
   });
 
   test("error renders correctly", () => {
-    const contextValue = { ...mockFilmContext, apiError: "There was an error" };
+    const contextValue = { ...mockFilmContext, apiError: "Error: There was an error" };
     renderResults(contextValue, {
       searchResults: [],
       enteredSearch: "none",
@@ -319,7 +319,7 @@ describe("Results Component", () => {
   });
 
   test("error renders correctly", () => {
-    const contextValue = { ...mockFilmContext, apiError: "There was an error" };
+    const contextValue = { ...mockFilmContext, apiError: "Error: There was an error" };
     renderResults(contextValue, {
       searchResults: [],
       enteredSearch: "none",
@@ -373,7 +373,7 @@ describe("Results Component", () => {
   });
 
   test("error renders correctly", () => {
-    const contextValue = { ...mockFilmContext, apiError: "There was an error" };
+    const contextValue = { ...mockFilmContext, apiError: "Error: There was an error" };
     renderResults(contextValue, {
       searchResults: [],
       enteredSearch: "none",

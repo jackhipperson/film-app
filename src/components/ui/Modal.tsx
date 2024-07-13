@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import FilmContext, { filmObject } from "../../contexts/FilmContext";
+import FilmContext from "../../contexts/FilmContext";
 import closeIcon from "../icons/close.svg";
 import addWatchIcon from "../icons/add.svg";
 import addFavIcon from "../icons/fav0.svg";

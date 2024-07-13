@@ -12,7 +12,7 @@ export const fetchFilms = async (search: string) => {
     const res = await fetch(
       `https://api.themoviedb.org/3/search/movie?query=${search}&api_key=${API_KEY}`
     );
-
+    
     const status: number = res.status;
     if (status !== 200){
       throw new Error(`http error: status ${status}`)
@@ -38,9 +38,10 @@ export const fetchFilms = async (search: string) => {
       data: filmResults,
       status: status,
     };
-
+    
     return results;
   } catch (error: any) {
+    
     throw new Error(error);
   }
 };
