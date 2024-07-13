@@ -92,6 +92,10 @@ describe("Header Component", () => {
 
   test("Links have correct paths", async () => {
     await renderHeader();
+    expect(screen.getByText("Film App").parentElement).toHaveAttribute(
+      "href",
+      "/"
+    );
     expect(screen.getByText("Search").parentElement).toHaveAttribute(
       "href",
       "/search"

@@ -31,9 +31,7 @@ const Search: React.FC = () => {
         let apiResult: any = await fetchFilms(enteredSearch);
           setSearchResults(apiResult.data);
           setApiErrorHandler(null);
-      } catch (error: any) {
-        console.log(error.message);
-        
+      } catch (error: any) {        
         setApiErrorHandler(error.message);
         setSearchResults([]);
       }

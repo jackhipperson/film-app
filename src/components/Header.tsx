@@ -5,13 +5,16 @@ import recommendedIcon from "./icons/thumb.svg";
 import helpIcon from "./icons/help.svg";
 import HeaderLink from "./ui/HeaderLink";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Header: React.FC = () => {
   return (
     <div className="sticky top-0 bg-yellow-500 border-b-2 border-yellow-900">
       <div className="flex content-stretch m-auto max-w-6xl">
         <div className="p-4">
-          <h1 className="text-md md:text-2xl">Film App</h1>
+          <NavLink to="/">
+            <h1 className="text-md md:text-2xl">Film App</h1>
+          </NavLink>
         </div>
         <div className="flex ml-auto items-center text-right text-sm">
           <HeaderLink link="/search" icon={searchIcon} title="Search" />

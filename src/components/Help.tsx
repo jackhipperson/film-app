@@ -4,6 +4,7 @@ import favIcon from "./icons/fav0.svg";
 import recommendedIcon from "./icons/thumb.svg";
 import HelpItem from "./ui/HelpItem";
 import HelpIcon from "./ui/HelpIcon";
+import githubLogo from './icons/github.svg'
 import React from "react";
 
 const Help: React.FC = () => {
@@ -49,6 +50,10 @@ const Help: React.FC = () => {
           <HelpIcon icon={favIcon} title="Heart" /> icon to add it to your
           Favourites and make your recommendations better!
         </HelpItem>
+      </div>
+      <div className="mt-4">
+        <p>Created by Jack Hipperson</p>
+        <a className="flex justify-center pt-2" href="https://github.com/jackhipperson" target="_blank"><img src={githubLogo} width="50px" alt="Visit my Github" title="Visit my Github" /></a>
       </div>
     </div>
   );
