@@ -53,7 +53,7 @@ const Help: React.FC = () => {
       </div>
       <div className="mt-4">
         <p>Created by Jack Hipperson</p>
-        <a className="flex justify-center pt-2" href="https://github.com/jackhipperson" target="_blank"><img src={githubLogo} width="50px" alt="Visit my Github" title="Visit my Github" /></a>
+        <a className="flex justify-center pt-2" href="https://github.com/jackhipperson" target="_blank" rel="noopener"><img src={githubLogo} width="50px" alt="Visit my Github" title="Visit my Github" /></a>
       </div>
     </div>
   );

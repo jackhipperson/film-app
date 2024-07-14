@@ -51,4 +51,8 @@ test("good path", async ({ page }) => {
   // navigate to watch list and check that item is there
   await page.getByRole("link", { name: "Recommended" }).click();
   await expect(page.getByText("The Dark Knight (2008)")).toBeVisible();
+
+  // click film app logo and return to '/'
+  await page.getByRole('heading', { name: 'Film App' }).click()
+  await expect(page.getByText('Welcome to the Film App! You')).toBeVisible();
 });
