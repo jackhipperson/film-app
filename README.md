@@ -1,6 +1,16 @@
 # Film App
 
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=Playwright&logoColor=white)
+
 Welcome to the Film App! This is a web application that allows users to search for movies, save their favourites, and manage a watch list. The application is built using React with TypeScript, utilising TheMovieDB API features. It includes unit testing with Jest and end-to-end testing with Playwright. It is deployed on Vercel. CSS styling is TailwindCSS and icons are [HeroIcons](https://heroicons.com/).
+
+![Google Lighthouse Score](https://github.com/jackhipperson/film-app/blob/main/public/lighthouse.png?raw=true)
 
 ## Features
 - Search for movies by title - the api will populate film results sorted on rating.
